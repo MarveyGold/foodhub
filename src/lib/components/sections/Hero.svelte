@@ -37,7 +37,7 @@
 					<button
 						class="transform rounded-xl bg-[#C41E3A] px-8 py-4 text-lg font-bold text-white shadow-xl shadow-[#C41E3A]/20 transition-all hover:bg-[#9e0027] active:scale-95"
 					>
-						Join Our Table
+						View Menu
 					</button>
 					<button
 						class="transform rounded-xl border-2 border-amber-500 bg-transparent px-8 py-4 text-lg font-bold text-amber-500 transition-all hover:bg-amber-500/10 active:scale-95"
