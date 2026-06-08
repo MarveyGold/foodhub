@@ -1,12 +1,8 @@
-<script>
-  function handleCancel() {
-    history.back();
-  }
-</script>
+
 <a href="/">
 <header class="backdrop-blur-sm bg-black-0">
   <div class="header-left">
-    <button class="icon-btn" aria-label="Go back" onclick={handleCancel}>
+    <button class="icon-btn" aria-label="Go back" >
       <span class="material-symbols-outlined primary-icon"
         ><img src="/logo.png" alt="Hadeva Bakes" width="50" height="50" /></span
       >
