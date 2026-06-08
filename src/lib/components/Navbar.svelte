@@ -101,7 +101,7 @@
     font-family: var(--font-brand);
     font-size: 24px;
     font-weight: 700;
-    color: var(--color-primary);
+    color: #F6D055;
   }
 
   .icon-btn {
