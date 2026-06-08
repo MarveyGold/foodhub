@@ -3,7 +3,7 @@
     history.back();
   }
 </script>
-
+<a href="/">
 <header class="backdrop-blur-sm bg-black-0">
   <div class="header-left">
     <button class="icon-btn" aria-label="Go back" onclick={handleCancel}>
@@ -30,7 +30,7 @@
     >
   </div>
 </header>
-
+</a>
 <style>
   header {
     position: sticky;
