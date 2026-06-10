@@ -7,6 +7,14 @@ export const actions = {
     const name = data.get('name');
     const image = data.get('image');
 
+    console.log('name:', name);
+    console.log('image:', image);
+    console.log('image name:', image?.name);
+
+    if (!image || !name) {
+      return { success: false, error: 'Missing fields' };
+    }
+
     const buffer = Buffer.from(await image.arrayBuffer());
 
     await mkdir('/static', { recursive: true });
