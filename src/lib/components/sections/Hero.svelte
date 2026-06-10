@@ -2,10 +2,10 @@
   import { goto } from "$app/navigation";
   let current = $state(0);
   const slides = [
-    "/background1.png",
-    "/background2.png",
-    "/background3.png",
-    "/background4.png",
+    "/images/background1.png",
+    "/images/background2.png",
+    "/images/background3.png",
+    "/images/background4.png",
   ];
   $effect(() => {
     const interval = setInterval(() => {

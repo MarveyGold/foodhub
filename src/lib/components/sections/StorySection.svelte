@@ -17,7 +17,7 @@
           <img
             alt="Chef Fejiro"
             class="relative z-10 aspect-square w-full rounded-2xl object-cover shadow-2xl grayscale transition-all duration-700 hover:grayscale-0"
-            src="/chef.png"
+            src="/images/chef.png"
           />
         </div>
       </div>

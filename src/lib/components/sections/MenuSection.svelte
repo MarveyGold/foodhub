@@ -41,7 +41,7 @@
             <img
               alt="Cake"
               class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-              src="/cake.png"
+              src="/images/cake.png"
             />
           </div>
           <div class="flex flex-col justify-center p-8">
@@ -79,7 +79,7 @@
           <img
             alt="Egusi Soup"
             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-            src="/meatpie.png"
+            src="/images/meatpie.png"
           />
         </div>
         <div class="p-6">
@@ -110,7 +110,7 @@
           <img
             alt="Small Chops"
             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-            src="/chops.png"
+            src="/images/chops.png"
           />
         </div>
         <div class="p-6">

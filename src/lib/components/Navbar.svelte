@@ -47,7 +47,7 @@
       <button class="icon-btn" aria-label="Go back">
         <span class="material-symbols-outlined primary-icon"
           ><img
-            src="/logo.png"
+            src="/images/logo.png"
             alt="Hadeva Bakes"
             width="50"
             height="50"
@@ -101,7 +101,7 @@
     font-family: var(--font-brand);
     font-size: 24px;
     font-weight: 700;
-    color: #F6D055;
+    color: #f6d055;
   }
 
   .icon-btn {

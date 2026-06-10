@@ -13,12 +13,12 @@
     ],
   };
   let { data } = $props();
-  console.log(data.category)
+  console.log(data.category);
   let flavour = $state("Vanilla");
   let quantity = $state(1);
   let item = $state();
-  let name = $state()
-    let price = $derived(item?.price * quantity);
+  let name = $state();
+  let price = $derived(item?.price * quantity);
 </script>
 
 {#if item}
@@ -28,7 +28,7 @@
       <!-- Main Feature -->
 
       <div
-        class=" p-1.5 absolute top-20 group overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 md:active:border-amber-500/30 md:col-span-2 w-[95vw]"
+        class=" p-1.5 absolute top-20 group overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 md:focus:border-amber-500/30 md:col-span-2 w-[95vw]"
       >
         <div class="relative h-36 flex flex-row justify-between items-center">
           <img
@@ -109,20 +109,22 @@
           <div class="flex mt-1.5 items-center justify-center">
             <button
               class="  flex items-center justify-center rounded-2xl transform bg-[#f54504] h-10 w-[80vw] text-white transition-transform flavour:scale-90"
-              onclick={() => { item.category == "cake" ?
-          addToCart({
-                  ...item,
-                  id: crypto.randomUUID(),
-                  flavour,
-                  quantity,
-                  cost: price,
-                }) :
-addToCart({
-                  ...item,
-                  id: crypto.randomUUID(),
-                  quantity,
-                  cost: price,
-                });                item = 0;
+              onclick={() => {
+                item.category == "cake"
+                  ? addToCart({
+                      ...item,
+                      id: crypto.randomUUID(),
+                      flavour,
+                      quantity,
+                      cost: price,
+                    })
+                  : addToCart({
+                      ...item,
+                      id: crypto.randomUUID(),
+                      quantity,
+                      cost: price,
+                    });
+                item = 0;
               }}
               ><span class="material-symbols-outlined"
                 ><svg
@@ -154,26 +156,37 @@ addToCart({
     </div>
   </div>
 {:else}
-  <div class=" w-[90vw] ml-[5vw] justify-between gap-2 flex rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800">
-       <a href="/menu"> <span
-          class="cursor-pointer  rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-class:text-amber-500 ={!data.category } class:text-stone-400 ={data.category }          >All</span
-        > </a>
- <a href="/menu?category=cake"><span
-          class="cursor-pointer  rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-class:text-stone-400={data.category !== 'cake' } class:text-amber-500={data.category == 'cake' }  >Cakes</span
-        ></a>
-<a href="/menu?category=snacks"> <span
-          class="cursor-pointer  rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-class:text-stone-400 ={data.category !== 'snacks' } class:text-amber-500={data.category == 'snacks' }    >Snacks</span
-        > </a>
-      </div>
-<div class="p-2 pb-18" >
+  <div
+    class=" w-[90vw] ml-[5vw] justify-between gap-2 flex rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+  >
+    <a href="/menu">
+      <span
+        class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+        class:text-amber-500={!data.category}
+        class:text-stone-400={data.category}>All</span
+      >
+    </a>
+    <a href="/menu?category=cake"
+      ><span
+        class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+        class:text-stone-400={data.category !== "cake"}
+        class:text-amber-500={data.category == "cake"}>Cakes</span
+      ></a
+    >
+    <a href="/menu?category=snacks">
+      <span
+        class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+        class:text-stone-400={data.category !== "snacks"}
+        class:text-amber-500={data.category == "snacks"}>Snacks</span
+      >
+    </a>
+  </div>
+  <div class="p-2 pb-18">
     <div class="grid grid-cols-2 gap-1 md:grid-cols-12">
       <!-- Main Feature -->
       {#each data.menu as menu}
         <div
-          class="group overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 active:border-amber-500/30 active:border-amber-500/30 "
+          class="group overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 active:border-amber-500/30 active:border-amber-500/30"
         >
           <div class="relative h-24 overflow-hidden">
             <img
@@ -210,16 +223,24 @@ class:text-stone-400 ={data.category !== 'snacks' } class:text-amber-500={data.c
                 class=" flex justify-center items-center rounded-full transform bg-[#f54504] h-10 w-10 text-white transition-transform active:scale-90"
                 onclick={() => (item = menu)}
               >
-                <span 
-                  ><svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
-fill="currentColor" viewBox="0 0 24 24" >
-<!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
-<path d="M12.5 5v2.5H10v2h2.5V12h2V9.5H17v-2h-2.5V5z"></path><path d="M17.31 14H9.72L5.95 2.68A1 1 0 0 0 5 2H2v2h2.28l3.54 10.63A2 2 0 0 0 9.72 16h7.59a2 2 0 0 0 1.87-1.3l2.76-7.35-1.87-.7zM10 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"></path>
-</svg></span
+                <span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                    <path d="M12.5 5v2.5H10v2h2.5V12h2V9.5H17v-2h-2.5V5z"
+                    ></path><path
+                      d="M17.31 14H9.72L5.95 2.68A1 1 0 0 0 5 2H2v2h2.28l3.54 10.63A2 2 0 0 0 9.72 16h7.59a2 2 0 0 0 1.87-1.3l2.76-7.35-1.87-.7zM10 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"
+                    ></path>
+                  </svg></span
                 >
               </button>
               <button
-                class="material-symbols-outlined text-stone-400  active:text-[#f54504]"
+                class="material-symbols-outlined text-stone-400 active:text-[#f54504]"
                 >favorite</button
               >
             </div>
