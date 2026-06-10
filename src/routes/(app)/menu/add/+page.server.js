@@ -1,5 +1,4 @@
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import { writeFile, mkdir } from 'fs/promises';
 
 export const actions = {
   default: async ({ request }) => {
@@ -8,18 +7,11 @@ export const actions = {
     const name = data.get('name');
     const image = data.get('image');
 
-    const buffer = Buffer.from(
-      await image.arrayBuffer()
-    );
-    console.log(name);
-    console.log(image.name);
-    await writeFile(
-      path.join('static', `${name}.png`),
-      buffer
-    );
+    const buffer = Buffer.from(await image.arrayBuffer());
 
-    return {
-      success: true
-    };
+    await mkdir('/static', { recursive: true });
+    await writeFile(`/static/${name}.png`, buffer);
+
+    return { success: true };
   }
 };
