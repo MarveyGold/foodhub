@@ -20,7 +20,10 @@
   let name = $state();
   let price = $derived(item?.price * quantity);
 </script>
-
+<svelte:head>
+  <title>Menu | Hadeva Bakes</title>
+  <meta name="description" content="Browse our full menu of cakes, snacks and drinks." />
+</svelte:head>
 {#if item}
   <!-- content here -->
   <div class="p-2 py-25 absolute bg-stone-900">
