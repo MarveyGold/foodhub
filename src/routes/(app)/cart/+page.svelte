@@ -48,7 +48,7 @@
         <p class="text-amber-500 font-bold">₦{item.cost.toLocaleString()}</p>
       </div>
       <button
-        class="transform h-14 w-14 rounded-full bg-[#C41E3A] p-3 text-white transition-transform active:scale-90"
+        class="transform h-14 w-14 rounded-full bg-[#F45404] items-center justify-center p-3 text-white transition-transform active:scale-90"
         onclick={() => removeItem(item)}
         ><svg
           xmlns="http://www.w3.org/2000/svg"
