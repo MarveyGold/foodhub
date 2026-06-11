@@ -3,7 +3,7 @@
   let { data } = $props();
 </script>
 
-<main class="p-4 max-w-lg mx-auto">
+<main class="p-4 pb-24 max-w-lg mx-auto">
   <h2 class="text-2xl font-bold mb-6">Manage Menu</h2>
 
   <div class="flex flex-col gap-4">
