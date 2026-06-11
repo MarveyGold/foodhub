@@ -1,4 +1,5 @@
 import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from '$env/static/private';
+import { addProduct } from '$lib/server/products.js';
 
 export const actions = {
   default: async ({ request }) => {
@@ -7,19 +8,21 @@ export const actions = {
     const name = data.get('name');
     const image = data.get('image');
 
-    const formData = new FormData();
-    formData.append('file', image);
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    formData.append('public_id', name);
+    // Upload to Cloudinary
+    const cf = new FormData();
+    cf.append('file', image);
+    cf.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    cf.append('public_id', name);
 
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-      { method: 'POST', body: formData }
+      { method: 'POST', body: cf }
     );
+    const { secure_url } = await res.json();
 
-    const result = await res.json();
-    console.log(result.secure_url)
+    // Save to DB
+    const product = await addProduct({ data, imageUrl: secure_url });
 
-    return { success: true, url: result.secure_url };
+    return { success: true, id: product._id.toString() };
   }
 };
