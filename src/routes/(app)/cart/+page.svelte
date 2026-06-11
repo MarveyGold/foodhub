@@ -40,7 +40,10 @@
           class="mb-2 text-2sm font-bold text-white"
           style="font-family: 'Plus Jakarta Sans', sans-serif;"
         >
-          {item.name} ({item.flavour})
+          {item.name} 
+{#if item.flavour}
+({item.flavour})
+{/if}
         </h4>
         <p class="text-amber-500 font-bold">₦{item.cost.toLocaleString()}</p>
       </div>
