@@ -4,9 +4,8 @@ import { Menu } from "$lib/server/models/Menu"
 
 await connectDB()
 export async function getProducts(category) {
-  
-  const menu = await Menu.find(category ? { category } : {}).lean()
-  return menu
+  const menu = await Menu.find(category ? { category } : {}).lean();
+  return menu.map(item => ({ ...item, _id: item._id.toString() }));
 }
 export async function addProduct({ data, imageUrl }) {
   return await Menu.create({
