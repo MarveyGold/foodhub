@@ -20,3 +20,6 @@ export async function addProduct({ data, imageUrl }) {
     imageUrl
   });
 }
+export async function deleteProduct(_id) {
+  return await Menu.findByIdAndDelete(_id);
+}
