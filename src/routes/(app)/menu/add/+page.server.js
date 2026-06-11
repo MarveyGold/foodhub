@@ -18,6 +18,7 @@ export const actions = {
     );
 
     const result = await res.json();
+    console.log(result.secure_url)
 
     return { success: true, url: result.secure_url };
   }
