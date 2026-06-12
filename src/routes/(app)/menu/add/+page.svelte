@@ -19,16 +19,6 @@
     hasPreview = true;
     preview = URL.createObjectURL(file);
   }
-  function handleSubmit() {
-    console.log({
-      name,
-      category,
-      price,
-      description,
-      available,
-      preview,
-    });
-  }
 
   function handleCancel() {
     history.back();
@@ -42,7 +32,6 @@
   </div>
 
   <form
-    onsubmit={handleSubmit}
     method="POST"
     enctype="multipart/form-data"
     use:enhance
@@ -134,6 +123,7 @@
       <label class="field-label" for="description">Description</label>
       <textarea
         id="description"
+name="description"
         class="field-input"
         rows="3"
         placeholder="Describe the flavors, ingredients, and soul of this dish..."
