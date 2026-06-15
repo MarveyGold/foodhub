@@ -13,16 +13,25 @@ export const actions = {
     cf.append('file', image);
     cf.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
     cf.append('public_id', name);
+const res = await fetch(
+  `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+  { method: 'POST', body: cf }
+);
 
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-      { method: 'POST', body: cf }
-    );
-    const { secure_url } = await res.json();
+if (!res.ok) {
+  const error = await res.json();
+  return { success: false, error: error.error?.message || 'Upload failed' };
+  console.log(error)
+}
 
-    // Save to DB
+const { secure_url } = await res.json();
+
+if (!secure_url) {
+  return { success: false, error: 'No URL returned from Cloudinary' };
+  }
+    
     const product = await addProduct({ data, imageUrl: secure_url });
 
-    return { success: true, id: product._id.toString() };
+    return { success: true, };
   }
 };
