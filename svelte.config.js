@@ -8,7 +8,7 @@ const config = {
   },
   kit: {
     adapter: adapter({out: 'build'}),
-    bodySize: 10 * 1024 * 1024
+    bodySizeLimit: 10 * 1024 * 1024
   }
 };
 
