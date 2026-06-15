@@ -25,46 +25,36 @@
     </a>
   </section>
 {/if}
-<div class="py-20">
-  {#each $cartStore as item}
-    <div
-      class="rounded-3xl flex justify-between border border-white/5 bg-stone-950/50 p-4 transition-all hover:bg-[#C41E3A]/5"
-    >
-      <img
-        src={item.imageUrl}
-        alt=""
-        class="w-20 h-22 rounded-3xl object-cover"
-      />
-      <div class="flex-1">
-        <h4
-          class="mb-2 text-2sm font-bold text-white"
-          style="font-family: 'Plus Jakarta Sans', sans-serif;"
+<div class="p-4 pb-24">
+  <h2 class="text-2xl font-bold text-white mb-6">Your Cart</h2>
+
+  <div class="flex flex-col gap-4">
+    {#each $cartStore as item}
+      <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-stone-900 p-3">
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          class="h-16 w-16 rounded-xl object-cover"
+        />
+        <div class="flex-1">
+          <h3 class="font-bold text-white">{item.name}
+            {#if item.flavour}
+              <span class="text-stone-400 font-normal text-sm">({item.flavour})</span>
+            {/if}
+          </h3>
+          <p class="text-xs text-amber-500 font-bold">₦{item.cost.toLocaleString()}</p>
+          <p class="text-xs text-stone-500">Qty: {item.quantity}</p>
+        </div>
+        <button
+          onclick={() => removeItem(item)}
+          aria-label="Remove item"
+          class="flex items-center justify-center h-10 w-10 rounded-full bg-red-500/10 text-red-400 active:bg-red-500/30 transition"
         >
-          {item.name} 
-{#if item.flavour}
-({item.flavour})
-{/if}
-        </h4>
-        <p class="text-amber-500 font-bold">₦{item.cost.toLocaleString()}</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9zm0 5h2v9H9V8zm4 0h2v9h-2V8z"/>
+          </svg>
+        </button>
       </div>
-      <button
-        class="transform h-14 w-14 rounded-full bg-[#F45404] items-center justify-center p-3 text-white transition-transform active:scale-90"
-        onclick={() => removeItem(item)}
-        ><svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
-          <path
-            d="m11.73 5.32-1.41 1.41 1.77 1.77-1.77 1.77 1.41 1.41 1.77-1.77 1.77 1.77 1.41-1.41-1.77-1.77 1.77-1.77-1.41-1.41-1.77 1.77z"
-          ></path><path
-            d="M17.31 14H9.72L5.95 2.68A1 1 0 0 0 5 2H2v2h2.28l3.54 10.63A2 2 0 0 0 9.72 16h7.59a2 2 0 0 0 1.87-1.3l2.76-7.35-1.87-.7zM10 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"
-          ></path>
-        </svg>
-      </button>
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>
