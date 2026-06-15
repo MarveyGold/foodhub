@@ -12,7 +12,8 @@ export const actions = {
     const cf = new FormData();
     cf.append('file', image);
     cf.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    cf.append('public_id', name);
+    const publicId = `${name.trim().toLowerCase().replace(/\s+/g, '-')}-${crypto.randomUUID().slice(0, 8)}`;
+    cf.append('public_id', publicId);
 const res = await fetch(
   `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
   { method: 'POST', body: cf }
