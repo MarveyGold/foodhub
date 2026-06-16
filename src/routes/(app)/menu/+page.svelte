@@ -19,11 +19,28 @@
   let item = $state();
   let name = $state();
   let price = $derived(item?.price * quantity);
+  let toast = $state(false);
+
+  function showToast() {
+    toast = true;
+    setTimeout(() => (toast = false), 2000);
+  }
 </script>
+
 <svelte:head>
   <title>Menu | Hadeva Bakes</title>
-  <meta name="description" content="Browse our full menu of cakes, snacks and drinks." />
+  <meta
+    name="description"
+    content="Browse our full menu of cakes, snacks and drinks."
+  />
 </svelte:head>
+{#if toast}
+  <div
+    class="fixed top-56 left-1/2 -translate-x-1/2 z-50 bg-[#f54504] text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg"
+  >
+    Added to cart ✓
+  </div>
+{/if}
 {#if item}
   <!-- content here -->
   <div class="p-2 py-25 absolute bg-stone-900">
@@ -66,11 +83,10 @@
         <div>
           {#if item.category == "cake"}
             {#each flavourGroups.cake as item}
-              <!-- content here -->
               <button
                 onclick={() => (flavour = item)}
                 class="
-    px-4 py-[9px] rounded-full
+    px-4 py-2.25 rounded-full
     text-[13px]
     tracking-[0.01em]
     font-['DM_Sans']
@@ -111,7 +127,7 @@
           <br />
           <div class="flex mt-1.5 items-center justify-center">
             <button
-              class="  flex items-center justify-center rounded-2xl transform bg-[#f54504] h-10 w-[80vw] text-white transition-transform flavour:scale-90"
+              class="  flex items-center justify-center rounded-2xl transform bg-primary h-10 w-[80vw] text-white transition-transform flavour:scale-90"
               onclick={() => {
                 item.category == "cake"
                   ? addToCart({
@@ -128,6 +144,7 @@
                       cost: price,
                     });
                 item = 0;
+                showToast();
               }}
               ><span class="material-symbols-outlined"
                 ><svg
@@ -188,46 +205,48 @@
     <div class="grid grid-cols-2 gap-1 md:grid-cols-12">
       <!-- Main Feature -->
       {#each data.menu as menu}
-  <div
-    onclick={() => (item = menu)}
-    class="group cursor-pointer overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 active:border-amber-500/30"
-  >
-    <div class="relative h-24 overflow-hidden">
-      <img
-        alt={menu.name}
-        class="h-full w-full object-cover transition-transform duration-700 group-active:scale-110"
-        src={menu.imageUrl}
-      />
-    </div>
-    <div class="p-2">
-      <h3
-        class="mb-2 text-2xl font-bold text-white"
-        style="font-family: 'Plus Jakarta Sans', sans-serif;"
-      >
-        {menu.name}
-      </h3>
-      {#if menu.size}
-        <h4
-          class="mb-2 text-body-md font-bold text-white"
-          style="font-family: 'Plus Jakarta Sans', sans-serif;"
+        <div
+          onclick={() => (item = menu)}
+          class="group cursor-pointer overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 active:border-amber-500/30"
         >
-          {menu.size} Inches, {menu.layers} Layers
-        </h4>
-      {/if}
-      <p class="mb-4 text-xs leading-relaxed text-stone-500">
-        {menu.description}
-      </p>
-      <div class="flex items-center justify-between">
-        <span class="text-lg font-bold text-amber-500">
-          ₦{menu.price.toLocaleString()}
-        </span>
-        <button class="material-symbols-outlined text-stone-400 active:text-[#f54504]">
-          favorite
-        </button>
-      </div>
-    </div>
-  </div>
-{/each}
+          <div class="relative h-24 overflow-hidden">
+            <img
+              alt={menu.name}
+              class="h-full w-full object-cover transition-transform duration-700 group-active:scale-110"
+              src={menu.imageUrl}
+            />
+          </div>
+          <div class="p-2">
+            <h3
+              class="mb-2 text-2xl font-bold text-white"
+              style="font-family: 'Plus Jakarta Sans', sans-serif;"
+            >
+              {menu.name}
+            </h3>
+            {#if menu.size}
+              <h4
+                class="mb-2 text-body-md font-bold text-white"
+                style="font-family: 'Plus Jakarta Sans', sans-serif;"
+              >
+                {menu.size} Inches, {menu.layers} Layers
+              </h4>
+            {/if}
+            <p class="mb-4 text-xs leading-relaxed text-stone-500">
+              {menu.description}
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-amber-500">
+                ₦{menu.price.toLocaleString()}
+              </span>
+              <button
+                class="material-symbols-outlined text-stone-400 active:text-[#f54504]"
+              >
+                favorite
+              </button>
+            </div>
+          </div>
+        </div>
+      {/each}
     </div>
   </div>
 {/if}
