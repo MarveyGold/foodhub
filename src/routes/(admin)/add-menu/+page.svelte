@@ -15,7 +15,7 @@
   let canvas = $state(null);
 
   // Pan/zoom state
-  let img = new Image();
+  let img;
   let scale = $state(1);
   let offsetX = $state(0);
   let offsetY = $state(0);
