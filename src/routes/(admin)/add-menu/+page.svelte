@@ -1,23 +1,141 @@
 <script>
   import { enhance } from "$app/forms";
+
   let name = $state("");
   let category = $state("");
   let price = $state("");
   let description = $state("");
   let available = $state(true);
-  let preview = $state("");
   let hasPreview = $state(false);
-  let activeNav = $state("menu");
+  let cropping = $state(false);
 
-  // --- Handlers ---
-  function handleUploadClick() {
-    hasPreview = false;
-  }
+  let fileInput = $state(null);
+  let croppedBlob = $state(null);
+  let croppedPreview = $state("");
+  let canvas = $state(null);
+
+  // Pan/zoom state
+  let img = new Image();
+  let scale = $state(1);
+  let offsetX = $state(0);
+  let offsetY = $state(0);
+  let dragging = false;
+  let lastX = 0;
+  let lastY = 0;
+  let lastDist = 0;
+
+  const SIZE = 400; // crop box size
+
   function handleImage(event) {
     const file = event.target.files[0];
     if (!file) return;
-    hasPreview = true;
-    preview = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      // fit image into crop box initially
+      scale = Math.max(SIZE / img.width, SIZE / img.height);
+      offsetX = (SIZE - img.width * scale) / 2;
+      offsetY = (SIZE - img.height * scale) / 2;
+      cropping = true;
+      requestAnimationFrame(drawCanvas);
+    };
+    img.src = url;
+  }
+
+  function drawCanvas() {
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, SIZE, SIZE);
+    ctx.drawImage(img, offsetX, offsetY, img.width * scale, img.height * scale);
+    if (cropping) requestAnimationFrame(drawCanvas);
+  }
+
+  // Touch events for mobile
+  function onTouchStart(e) {
+    if (e.touches.length === 1) {
+      dragging = true;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      lastDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }
+
+  function onTouchMove(e) {
+    e.preventDefault();
+    if (e.touches.length === 1 && dragging) {
+      const dx = e.touches[0].clientX - lastX;
+      const dy = e.touches[0].clientY - lastY;
+      offsetX += dx;
+      offsetY += dy;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const delta = dist / lastDist;
+      scale *= delta;
+      lastDist = dist;
+    }
+  }
+
+  function onTouchEnd() {
+    dragging = false;
+  }
+
+  // Mouse events for desktop
+  function onMouseDown(e) {
+    dragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+  }
+
+  function onMouseMove(e) {
+    if (!dragging) return;
+    offsetX += e.clientX - lastX;
+    offsetY += e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+  }
+
+  function onMouseUp() {
+    dragging = false;
+  }
+
+  function onWheel(e) {
+    e.preventDefault();
+    scale *= e.deltaY < 0 ? 1.1 : 0.9;
+  }
+
+  function confirmCrop() {
+    if (!canvas) return;
+    canvas.toBlob((blob) => {
+      croppedBlob = blob;
+      croppedPreview = URL.createObjectURL(blob);
+      hasPreview = true;
+      cropping = false;
+    }, 'image/png');
+  }
+
+  function cancelCrop() {
+    cropping = false;
+    hasPreview = false;
+    croppedPreview = "";
+    croppedBlob = null;
+    fileInput.value = "";
+  }
+
+  function handleEnhance() {
+    return async ({ formData }) => {
+      if (croppedBlob) {
+        formData.delete('image');
+        formData.append('image', croppedBlob, `${name || 'image'}.png`);
+      }
+    };
   }
 
   function handleCancel() {
@@ -25,26 +143,59 @@
   }
 </script>
 
-<!-- MAIN CONTENT -->
+{#if cropping}
+  <div class="fixed inset-0 z-[100] bg-black flex flex-col" style="height: 100dvh;">
+    <div class="flex-1 flex items-center justify-center min-h-0">
+      <canvas
+        bind:this={canvas}
+        width={SIZE}
+        height={SIZE}
+        style="touch-action: none; max-width: 100vw; max-height: 100%;"
+        ontouchstart={onTouchStart}
+        ontouchmove={onTouchMove}
+        ontouchend={onTouchEnd}
+        onmousedown={onMouseDown}
+        onmousemove={onMouseMove}
+        onmouseup={onMouseUp}
+        onwheel={onWheel}
+      ></canvas>
+    </div>
+    <p class="text-center text-stone-400 text-sm pb-2">Pinch to zoom · Drag to pan</p>
+    <div class="flex gap-3 p-4 pb-8 bg-stone-950 shrink-0">
+      <button
+        type="button"
+        onclick={confirmCrop}
+        class="flex-1 bg-[#f54504] text-white font-bold py-3 rounded-full"
+      >
+        Use Photo
+      </button>
+      <button
+        type="button"
+        onclick={cancelCrop}
+        class="flex-1 border border-white/20 text-white font-bold py-3 rounded-full"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+{/if}
+
 <main>
   <div class="section-header">
     <h2>Add New Menu Item</h2>
   </div>
 
-  <form
-    method="POST"
-    enctype="multipart/form-data"
-    use:enhance
-  >
-    <!-- Dish Photo -->
+  <form method="POST" enctype="multipart/form-data" use:enhance={handleEnhance}>
     <div class="field-group">
-      <label class="field-label"
-        >Photo <div
+      <label class="field-label">Photo
+        <div
           class="upload-zone"
           class:has-preview={hasPreview}
           aria-label="Upload dish photo"
+          onclick={() => fileInput.click()}
         >
           <input
+            bind:this={fileInput}
             type="file"
             name="image"
             accept="image/*"
@@ -52,33 +203,30 @@
             onchange={handleImage}
           />
           {#if hasPreview}
-            <img src={preview} alt="Dish preview" class="preview-img" />
+            <img src={croppedPreview} alt="Dish preview" class="preview-img" />
+            <button
+              type="button"
+              onclick={(e) => { e.stopPropagation(); fileInput.click(); }}
+              class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
+            >
+              Change
+            </button>
           {:else}
             <div class="upload-placeholder">
-              <span class="material-symbols-outlined upload-icon"
-                >add_a_photo</span
-              >
+              <span class="material-symbols-outlined upload-icon">add_a_photo</span>
               <p class="upload-label">Tap to upload dish photo</p>
               <p class="upload-caption">High-res JPG or PNG preferred</p>
             </div>
           {/if}
-        </div></label
-      >
+        </div>
+      </label>
     </div>
 
-    <!-- Dish Name -->
     <div class="field-group">
       <label class="field-label" for="dish-name">Name</label>
-      <input
-        id="dish-name"
-        class="field-input"
-        name="name"
-        type="text"
-        bind:value={name}
-      />
+      <input id="dish-name" class="field-input" name="name" type="text" bind:value={name} />
     </div>
 
-    <!-- Category & Price -->
     <div class="grid-2">
       <div class="field-group">
         <label class="field-label" for="category">Category</label>
@@ -89,24 +237,15 @@
             <option value="snacks">Snacks</option>
             <option value="drinks">Drinks</option>
           </select>
-          <span class="material-symbols-outlined select-arrow"
-            >keyboard_arrow_down</span
-          >
+          <span class="material-symbols-outlined select-arrow">keyboard_arrow_down</span>
         </div>
       </div>
-
       <div class="field-group">
         <label class="field-label" for="price">Price (₦)</label>
-        <input
-          id="price"
-          class="field-input"
-          type="number"
-          name="price"
-          placeholder="0.00"
-          bind:value={price}
-        />
+        <input id="price" class="field-input" type="number" name="price" placeholder="0.00" bind:value={price} />
       </div>
     </div>
+
     <div class="grid-2">
       <div class="field-group">
         <label for="size" class="field-label">Inches</label>
@@ -118,12 +257,11 @@
       </div>
     </div>
 
-    <!-- Description -->
     <div class="field-group">
       <label class="field-label" for="description">Description</label>
       <textarea
         id="description"
-name="description"
+        name="description"
         class="field-input"
         rows="3"
         placeholder="Describe the flavors, ingredients, and soul of this dish..."
@@ -131,51 +269,34 @@ name="description"
       ></textarea>
     </div>
 
-    <!-- Availability Toggle -->
     <div class="toggle-row">
       <div class="toggle-text">
         <span class="toggle-title">Item Availability</span>
         <span class="toggle-caption">Visible to customers immediately</span>
       </div>
       <div class="toggle-track" class:active={available}>
-        <input
-          name="stock"
-          id="toggle"
-          type="checkbox"
-          class="toggle-input"
-          bind:checked={available}
-        />
-        <label
-          for="toggle"
-          class="toggle-thumb"
-          aria-label="Toggle availability"
-        ></label>
+        <input name="stock" id="toggle" type="checkbox" class="toggle-input" bind:checked={available} />
+        <label for="toggle" class="toggle-thumb" aria-label="Toggle availability"></label>
       </div>
     </div>
 
-    <!-- Action Buttons -->
     <div class="actions">
       <button type="submit" class="btn-primary">
         <span class="material-symbols-outlined">save</span>
         Save to Menu
       </button>
-      <button type="button" class="btn-outline" onclick={handleCancel}>
-        Cancel
-      </button>
+      <button type="button" class="btn-outline" onclick={handleCancel}>Cancel</button>
     </div>
   </form>
 </main>
 
 <style>
-  /* Design Tokens */
   :global(:root) {
     --font-brand: "Plus Jakarta Sans", sans-serif;
     --font-body: "Be Vietnam Pro", sans-serif;
-
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --radius-full: 9999px;
-
     --spacing-xs: 4px;
     --spacing-sm: 12px;
     --spacing-md: 24px;
@@ -189,8 +310,6 @@ name="description"
     padding: 0;
   }
 
-  /* Header */
-  /* Main */
   main {
     max-width: 480px;
     margin: 0 auto;
@@ -208,12 +327,6 @@ name="description"
     margin-bottom: var(--spacing-xs);
   }
 
-  .section-header p {
-    font-size: 16px;
-    color: var(--color-on-surface-variant);
-  }
-
-  /* Form */
   form {
     display: flex;
     flex-direction: column;
@@ -243,9 +356,7 @@ name="description"
     font-family: var(--font-body);
     font-size: 16px;
     outline: none;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
     appearance: none;
   }
 
@@ -254,11 +365,8 @@ name="description"
     box-shadow: 0 0 0 1px var(--color-primary);
   }
 
-  textarea.field-input {
-    resize: none;
-  }
+  textarea.field-input { resize: none; }
 
-  /* Photo Upload */
   .upload-zone {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -274,14 +382,8 @@ name="description"
     transition: border-color 0.2s;
   }
 
-  .upload-zone:hover {
-    border-color: var(--color-primary);
-  }
-
-  .upload-zone.has-preview {
-    border-style: solid;
-    border-color: var(--color-primary);
-  }
+  .upload-zone:hover { border-color: var(--color-primary); }
+  .upload-zone.has-preview { border-style: solid; border-color: var(--color-primary); }
 
   .preview-img {
     position: absolute;
@@ -304,29 +406,12 @@ name="description"
     transition: color 0.2s;
   }
 
-  .upload-zone:hover .upload-icon {
-    color: var(--color-primary);
-  }
+  .upload-zone:hover .upload-icon { color: var(--color-primary); }
+  .upload-label { font-size: 14px; font-weight: 600; color: var(--color-on-surface-variant); }
+  .upload-caption { font-size: 12px; color: var(--color-outline); }
 
-  .upload-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-on-surface-variant);
-  }
-
-  .upload-caption {
-    font-size: 12px;
-    color: var(--color-outline);
-  }
-
-  /* Select */
-  .select-wrap {
-    position: relative;
-  }
-
-  .select-wrap select {
-    padding-right: 48px;
-  }
+  .select-wrap { position: relative; }
+  .select-wrap select { padding-right: 48px; }
 
   .select-arrow {
     position: absolute;
@@ -338,14 +423,12 @@ name="description"
     font-size: 20px;
   }
 
-  /* 2-col grid */
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-md);
   }
 
-  /* Toggle */
   .toggle-row {
     display: flex;
     align-items: center;
@@ -353,40 +436,15 @@ name="description"
     padding: var(--spacing-md);
     border-radius: var(--radius-xl);
     background: var(--color-surface-container-high);
-    border: 1px solid
-      color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
   }
 
-  .toggle-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .toggle-text { display: flex; flex-direction: column; gap: 2px; }
+  .toggle-title { font-size: 14px; font-weight: 600; color: var(--color-on-surface); }
+  .toggle-caption { font-size: 12px; color: var(--color-on-surface-variant); }
 
-  .toggle-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-on-surface);
-  }
-
-  .toggle-caption {
-    font-size: 12px;
-    color: var(--color-on-surface-variant);
-  }
-
-  .toggle-track {
-    position: relative;
-    width: 48px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-
-  .toggle-input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+  .toggle-track { position: relative; width: 48px; height: 24px; flex-shrink: 0; }
+  .toggle-input { position: absolute; opacity: 0; width: 0; height: 0; }
 
   .toggle-thumb {
     display: block;
@@ -412,15 +470,9 @@ name="description"
     transition: transform 0.3s;
   }
 
-  .toggle-track.active .toggle-thumb {
-    background: var(--color-primary);
-  }
+  .toggle-track.active .toggle-thumb { background: var(--color-primary); }
+  .toggle-track.active .toggle-thumb::after { transform: translateX(24px); }
 
-  .toggle-track.active .toggle-thumb::after {
-    transform: translateX(24px);
-  }
-
-  /* Buttons */
   .actions {
     display: flex;
     flex-direction: column;
@@ -444,17 +496,11 @@ name="description"
     justify-content: center;
     gap: var(--spacing-sm);
     box-shadow: 0 4px 12px rgba(158, 0, 39, 0.3);
-    transition:
-      filter 0.15s,
-      transform 0.1s;
+    transition: filter 0.15s, transform 0.1s;
   }
 
-  .btn-primary:hover {
-    filter: brightness(1.1);
-  }
-  .btn-primary:active {
-    transform: scale(0.98);
-  }
+  .btn-primary:hover { filter: brightness(1.1); }
+  .btn-primary:active { transform: scale(0.98); }
 
   .btn-outline {
     width: 100%;
@@ -467,57 +513,9 @@ name="description"
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition:
-      background 0.15s,
-      transform 0.1s;
+    transition: background 0.15s, transform 0.1s;
   }
 
-  .btn-outline:hover {
-    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
-  }
-
-  .btn-outline:active {
-    transform: scale(0.98);
-  }
-
-  /* Bottom Nav */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: var(--color-surface);
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 var(--spacing-gutter);
-    z-index: 50;
-  }
-
-  .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--color-on-surface-variant);
-    transition: color 0.2s;
-    padding: 8px 12px;
-    border-radius: var(--radius-lg);
-  }
-
-  .nav-item.active {
-    color: var(--color-primary);
-    font-weight: 700;
-  }
-
-  .nav-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
+  .btn-outline:hover { background: color-mix(in srgb, var(--color-primary) 5%, transparent); }
+  .btn-outline:active { transform: scale(0.98); }
 </style>
