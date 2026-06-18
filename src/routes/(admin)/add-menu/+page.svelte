@@ -30,8 +30,8 @@
     const file = event.target.files[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
+    img = new Image();
     img.onload = () => {
-      // fit image into crop box initially
       scale = Math.max(SIZE / img.width, SIZE / img.height);
       offsetX = (SIZE - img.width * scale) / 2;
       offsetY = (SIZE - img.height * scale) / 2;
