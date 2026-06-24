@@ -5,7 +5,7 @@
 </script>
 
 <nav
-  class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-white/5 bg-stone-950 px-6 py-3"
+  class="fixed bottom-0 left-0 z-50 flex w-full items-center backdrop-blur-3xl justify-around border-t border-white/5 bg-background px-6 py-3"
 >
   <button
     onclick={() => goto("/menu")}

@@ -20,7 +20,7 @@
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
-        fill="currentColor"
+        fill="#fafafa"
         viewBox="0 0 24 24"
       >
         <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
@@ -33,6 +33,9 @@
 </header>
 
 <style>
+  svg {
+    fill: var(--color-on-background);
+  }
   header {
     position: sticky;
     top: 0;

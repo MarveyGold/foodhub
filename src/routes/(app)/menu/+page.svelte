@@ -58,7 +58,7 @@
           />
           <div class="flex flex-col w-[40vw] pr-1 whitespace-normal">
             <h3
-              class="text-2xl text-[#f54504] font-bold"
+              class="text-2xl text-primary font-bold"
               style="font-family: 'Plus Jakarta Sans', sans-serif;"
             >
               {item?.name}
@@ -206,6 +206,8 @@
       <!-- Main Feature -->
       {#each data.menu as menu}
         <div
+        role="button"
+        tabindex="0"
           onclick={() => (item = menu)}
           class="group cursor-pointer overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 active:border-amber-500/30"
         >
@@ -218,20 +220,20 @@
           </div>
           <div class="p-2">
             <h3
-              class="mb-2 text-2xl font-bold text-white"
+              class="mb-2 text-2xl font-bold text-secondary"
               style="font-family: 'Plus Jakarta Sans', sans-serif;"
             >
               {menu.name}
             </h3>
             {#if menu.size}
               <h4
-                class="mb-2 text-body-md font-bold text-white"
+                class="mb-2 text-body-md font-bold text-secondary"
                 style="font-family: 'Plus Jakarta Sans', sans-serif;"
               >
                 {menu.size} Inches, {menu.layers} Layers
               </h4>
             {/if}
-            <p class="mb-4 text-xs leading-relaxed text-stone-500">
+            <p class="mb-4 text-xs leading-relaxed text-on-primary">
               {menu.description}
             </p>
             <div class="flex items-center justify-between">
