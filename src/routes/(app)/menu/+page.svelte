@@ -45,9 +45,7 @@
     aria-label="Close"
   ></button>
 
-  <!-- Bottom Sheet Card -->
-  <div class="fixed z-50 bottom-0 left-0 right-0 rounded-t-3xl bg-orange-50 p-5 shadow-2xl">
-
+  <<div class="fixed z-50 bottom-0 left-0 right-0 rounded-t-3xl bg-orange-50 p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
     <!-- Handle -->
     <div class="mx-auto mb-4 h-1 w-10 rounded-full bg-stone-300"></div>
 
