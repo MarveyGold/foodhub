@@ -1,5 +1,6 @@
 <script>
   import { addToCart } from "$lib/cart";
+  import { Heart } from "@boxicons/svelte";
   const flavourGroups = {
     cake: [
       "Vanilla",
@@ -36,19 +37,19 @@
 </svelte:head>
 {#if toast}
   <div
-    class="fixed top-56 left-1/2 -translate-x-1/2 z-50 bg-[#f54504] text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg"
+    class="fixed top-56 left-1/2 -translate-x-1/2 z-50 bg-primary text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg"
   >
     Added to cart ✓
   </div>
 {/if}
 {#if item}
   <!-- content here -->
-  <div class="p-2 py-25 absolute bg-stone-900">
+  <div class="p-2 py-25">
     <div>
       <!-- Main Feature -->
 
       <div
-        class=" p-1.5 absolute top-20 group overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 md:focus:border-amber-500/30 md:col-span-2 w-[95vw]"
+        class=" p-1.5 fixed z-50 inset-0 top-20 group overflow-hidden rounded-3xl border border-orange-200 bg-orange-100 transition-all duration-300 md:focus:border-amber-500/30 md:col-span-2 w-[95vw]"
       >
         <div class="relative h-36 flex flex-row justify-between items-center">
           <img
@@ -58,13 +59,13 @@
           />
           <div class="flex flex-col w-[40vw] pr-1 whitespace-normal">
             <h3
-              class="text-2xl text-primary font-bold"
+              class="text-2xl text-(--color-primary) font-bold"
               style="font-family: 'Plus Jakarta Sans', sans-serif;"
             >
               {item?.name}
             </h3>
             <h4
-              class=" text-body-md font-bold text-white"
+              class=" text-body-md font-bold text-(--color-primary)"
               style="font-family: 'Plus Jakarta Sans', sans-serif;"
             >
               {#if item?.size}
@@ -87,7 +88,7 @@
                 onclick={() => (flavour = item)}
                 class="
     px-4 py-2.25 rounded-full
-    text-[13px]
+    text-[13px] text
     tracking-[0.01em]
     font-['DM_Sans']
     cursor-pointer
@@ -102,7 +103,7 @@
                 class:scale-[1.02]={item == flavour}
                 class:border-[rgba(255,255,255,0.12)]={item !== flavour}
                 class:bg-[rgba(255,255,255,0.04)]={item !== flavour}
-                class:text-[rgba(255,255,255,0.65)]={item !== flavour}
+                class:text-(--color-on-background)={item !== flavour}
                 class:font-normal={!item}>{item}</button
               >
             {/each}
@@ -110,7 +111,7 @@
         </div>
         <div class="p-2">
           <span class="flex items-center justify-between rounded-2md ]">
-            <div><h5>Quantity</h5></div>
+            <h5 class="text-(--color-on-background)">Quantity</h5>
             <div class="w-40 bg-black justify-between items-center flex h-10">
               <button
                 onclick={() => quantity--}
@@ -127,7 +128,7 @@
           <br />
           <div class="flex mt-1.5 items-center justify-center">
             <button
-              class="  flex items-center justify-center rounded-2xl transform bg-primary h-10 w-[80vw] text-white transition-transform flavour:scale-90"
+              class="  flex items-center justify-center rounded-2xl transform bg-(--color-primary) h-10 w-[80vw] text-(--color-on-background) transition-transform flavour:scale-90"
               onclick={() => {
                 item.category == "cake"
                   ? addToCart({
@@ -166,89 +167,88 @@
               <h5>Add to Cart - ₦{price.toLocaleString()}</h5>
             </button>
           </div>
+
+          <button
+            onclick={() => (item = 0)}
+            class=" bg-stone-400 text-[#f54504] h-10 w-10 rounded-full"
+            ><h6 class="material-symbols-outlined">X</h6></button
+          >
         </div>
-        <button
-          onclick={() => (item = 0)}
-          class="material-symbols-outlined text-stone-400 active:text-[#f54504]"
-          >X</button
-        >
       </div>
     </div>
   </div>
-{:else}
-  <div
-    class=" w-[90vw] ml-[5vw] justify-between gap-2 flex rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-  >
-    <a href="/menu">
-      <span
-        class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-        class:text-amber-500={!data.category}
-        class:text-stone-400={data.category}>All</span
-      >
-    </a>
-    <a href="/menu?category=cake"
-      ><span
-        class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-        class:text-stone-400={data.category !== "cake"}
-        class:text-amber-500={data.category == "cake"}>Cakes</span
-      ></a
+{/if}
+<div
+  class=" w-[90vw] ml-[5vw] justify-between gap-2 flex rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+>
+  <a href="/menu">
+    <span
+      class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+      class:text-amber-500={!data.category}
+      class:text-stone-400={data.category}>All</span
     >
-    <a href="/menu?category=snacks">
-      <span
-        class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-        class:text-stone-400={data.category !== "snacks"}
-        class:text-amber-500={data.category == "snacks"}>Snacks</span
-      >
-    </a>
-  </div>
-  <div class="p-2 pb-18">
-    <div class="grid grid-cols-2 gap-1 md:grid-cols-12">
-      <!-- Main Feature -->
-      {#each data.menu as menu}
-        <div
+  </a>
+  <a href="/menu?category=cake"
+    ><span
+      class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+      class:text-stone-400={data.category !== "cake"}
+      class:text-amber-500={data.category == "cake"}>Cakes</span
+    ></a
+  >
+  <a href="/menu?category=snacks">
+    <span
+      class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+      class:text-stone-400={data.category !== "snacks"}
+      class:text-amber-500={data.category == "snacks"}>Snacks</span
+    >
+  </a>
+</div>
+<div class="p-2 pb-18">
+  <div class="grid grid-cols-2 gap-1 md:grid-cols-12">
+    <!-- Main Feature -->
+    {#each data.menu as menu}
+      <div
         role="button"
         tabindex="0"
-          onclick={() => (item = menu)}
-          class="group cursor-pointer overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-white/5 bg-stone-900/50 transition-all duration-300 active:border-amber-500/30"
-        >
-          <div class="relative h-24 overflow-hidden">
-            <img
-              alt={menu.name}
-              class="h-full w-full object-cover transition-transform duration-700 group-active:scale-110"
-              src={menu.imageUrl}
-            />
-          </div>
-          <div class="p-2">
-            <h3
-              class="mb-2 text-2xl font-bold text-secondary"
+        onclick={() => (item = menu)}
+        onkeydown={(e) => e.key === "Enter" && (item = menu)}
+        class="group cursor-pointer shadow-lg overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-orange-200 bg-orange-100 transition-all duration-300 active:border-amber-500/30"
+      >
+        <div class="relative h-24 overflow-hidden">
+          <img
+            alt={menu.name}
+            class="h-full w-full object-cover transition-transform duration-700 group-active:scale-110"
+            src={menu.imageUrl}
+          />
+        </div>
+        <div class="p-2">
+          <h3
+            class="mb-2 text-2xl font-bold text-(--color-primary)"
+            style="font-family: 'Plus Jakarta Sans', sans-serif;"
+          >
+            {menu.name}
+          </h3>
+          {#if menu.size}
+            <h4
+              class="mb-2 text-body-md font-bold text-(--color-primary)"
               style="font-family: 'Plus Jakarta Sans', sans-serif;"
             >
-              {menu.name}
-            </h3>
-            {#if menu.size}
-              <h4
-                class="mb-2 text-body-md font-bold text-secondary"
-                style="font-family: 'Plus Jakarta Sans', sans-serif;"
-              >
-                {menu.size} Inches, {menu.layers} Layers
-              </h4>
-            {/if}
-            <p class="mb-4 text-xs leading-relaxed text-on-primary">
-              {menu.description}
-            </p>
-            <div class="flex items-center justify-between">
-              <span class="text-lg font-bold text-amber-500">
-                ₦{menu.price.toLocaleString()}
-              </span>
-              <button
-                class="material-symbols-outlined text-stone-400 active:text-[#f54504]"
-              >
-                favorite
-              </button>
-            </div>
+              {menu.size} Inches, {menu.layers} Layers
+            </h4>
+          {/if}
+          <p class="mb-4 text-xs leading-relaxed text-surface-tint">
+            {menu.description}
+          </p>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-bold text-amber-500">
+              ₦{menu.price.toLocaleString()}
+            </span>
+            <button class=" text-stone-400 active:text-[#f54504]">
+              <Heart pack="filled" />
+            </button>
           </div>
         </div>
-      {/each}
-    </div>
+      </div>
+    {/each}
   </div>
-{/if}
+</div>
