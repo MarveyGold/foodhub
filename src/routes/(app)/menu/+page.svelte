@@ -166,7 +166,7 @@
         tabindex="0"
         onclick={() => (item = menu)}
         onkeydown={(e) => e.key === "Enter" && (item = menu)}
-        class="group cursor-pointer shadow-lg overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-orange-200 bg-orange-100 transition-all duration-300 active:border-amber-500/30"
+        class="group cursor-pointer shadow-lg overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-surface-container bg-surface transition-all duration-300 active:border-amber-500/30"
       >
         <div class="relative h-24 overflow-hidden">
           <img

@@ -9,7 +9,7 @@
 
   <section
     id="cart"
-    class="py-20 px-6 h-[80vh] w-[95vw] flex flex-col items-center justify-between"
+    class="py-20 px-6 h-[80vh] w-[95vw] flex flex-col text-(--color-on-background) items-center justify-between"
   >
     <h2>Cart Is Empty</h2>
     <div>
@@ -30,20 +30,20 @@
 
   <div class="flex flex-col gap-4">
     {#each $cartStore as item}
-      <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-stone-900 p-3">
+      <div class="flex items-center gap-3 rounded-2xl border border-surface-container bg-surface p-3">
         <img
           src={item.imageUrl}
           alt={item.name}
           class="h-16 w-16 rounded-xl object-cover"
         />
         <div class="flex-1">
-          <h3 class="font-bold text-white">{item.name}
+          <h3 class="font-bold text-primary">{item.name}
             {#if item.flavour}
-              <span class="text-stone-400 font-normal text-sm">({item.flavour})</span>
+              <span class="text-primary font-normal text-sm">({item.flavour})</span>
             {/if}
           </h3>
           <p class="text-xs text-amber-500 font-bold">₦{item.cost.toLocaleString()}</p>
-          <p class="text-xs text-stone-500">Qty: {item.quantity}</p>
+          <p class="text-xs text-surface-tint">Qty: {item.quantity}</p>
         </div>
         <button
           onclick={() => removeItem(item)}

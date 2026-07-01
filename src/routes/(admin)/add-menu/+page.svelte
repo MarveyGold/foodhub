@@ -43,7 +43,7 @@
 
   function drawCanvas() {
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, SIZE, SIZE);
     ctx.drawImage(img, offsetX, offsetY, img.width * scale, img.height * scale);
     if (cropping) requestAnimationFrame(drawCanvas);
@@ -58,7 +58,7 @@
     } else if (e.touches.length === 2) {
       lastDist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
+        e.touches[0].clientY - e.touches[1].clientY,
       );
     }
   }
@@ -75,7 +75,7 @@
     } else if (e.touches.length === 2) {
       const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
+        e.touches[0].clientY - e.touches[1].clientY,
       );
       const delta = dist / lastDist;
       scale *= delta;
@@ -118,7 +118,7 @@
       croppedPreview = URL.createObjectURL(blob);
       hasPreview = true;
       cropping = false;
-    }, 'image/png');
+    }, "image/png");
   }
 
   function cancelCrop() {
@@ -132,8 +132,8 @@
   function handleEnhance() {
     return async ({ formData }) => {
       if (croppedBlob) {
-        formData.delete('image');
-        formData.append('image', croppedBlob, `${name || 'image'}.png`);
+        formData.delete("image");
+        formData.append("image", croppedBlob, `${name || "image"}.png`);
       }
     };
   }
@@ -144,7 +144,10 @@
 </script>
 
 {#if cropping}
-  <div class="fixed inset-0 z-[100] bg-black flex flex-col" style="height: 100dvh;">
+  <div
+    class="fixed inset-0 z-[100] bg-black flex flex-col"
+    style="height: 100dvh;"
+  >
     <div class="flex-1 flex items-center justify-center min-h-0">
       <canvas
         bind:this={canvas}
@@ -160,7 +163,9 @@
         onwheel={onWheel}
       ></canvas>
     </div>
-    <p class="text-center text-stone-400 text-sm pb-2">Pinch to zoom · Drag to pan</p>
+    <p class="text-center text-stone-400 text-sm pb-2">
+      Pinch to zoom · Drag to pan
+    </p>
     <div class="flex gap-3 p-4 pb-8 bg-stone-950 shrink-0">
       <button
         type="button"
@@ -180,14 +185,15 @@
   </div>
 {/if}
 
-<main>
+<main class="text-on-background">
   <div class="section-header">
     <h2>Add New Menu Item</h2>
   </div>
 
   <form method="POST" enctype="multipart/form-data" use:enhance={handleEnhance}>
     <div class="field-group">
-      <label class="field-label">Photo
+      <label class="field-label"
+        >Photo
         <div
           class="upload-zone"
           class:has-preview={hasPreview}
@@ -206,14 +212,19 @@
             <img src={croppedPreview} alt="Dish preview" class="preview-img" />
             <button
               type="button"
-              onclick={(e) => { e.stopPropagation(); fileInput.click(); }}
+              onclick={(e) => {
+                e.stopPropagation();
+                fileInput.click();
+              }}
               class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
             >
               Change
             </button>
           {:else}
             <div class="upload-placeholder">
-              <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+              <span class="material-symbols-outlined upload-icon"
+                >add_a_photo</span
+              >
               <p class="upload-label">Tap to upload dish photo</p>
               <p class="upload-caption">High-res JPG or PNG preferred</p>
             </div>
@@ -224,7 +235,13 @@
 
     <div class="field-group">
       <label class="field-label" for="dish-name">Name</label>
-      <input id="dish-name" class="field-input" name="name" type="text" bind:value={name} />
+      <input
+        id="dish-name"
+        class="field-input"
+        name="name"
+        type="text"
+        bind:value={name}
+      />
     </div>
 
     <div class="grid-2">
@@ -237,12 +254,21 @@
             <option value="snacks">Snacks</option>
             <option value="drinks">Drinks</option>
           </select>
-          <span class="material-symbols-outlined select-arrow">keyboard_arrow_down</span>
+          <span class="material-symbols-outlined select-arrow"
+            >keyboard_arrow_down</span
+          >
         </div>
       </div>
       <div class="field-group">
         <label class="field-label" for="price">Price (₦)</label>
-        <input id="price" class="field-input" type="number" name="price" placeholder="0.00" bind:value={price} />
+        <input
+          id="price"
+          class="field-input"
+          type="number"
+          name="price"
+          placeholder="0.00"
+          bind:value={price}
+        />
       </div>
     </div>
 
@@ -275,8 +301,18 @@
         <span class="toggle-caption">Visible to customers immediately</span>
       </div>
       <div class="toggle-track" class:active={available}>
-        <input name="stock" id="toggle" type="checkbox" class="toggle-input" bind:checked={available} />
-        <label for="toggle" class="toggle-thumb" aria-label="Toggle availability"></label>
+        <input
+          name="stock"
+          id="toggle"
+          type="checkbox"
+          class="toggle-input"
+          bind:checked={available}
+        />
+        <label
+          for="toggle"
+          class="toggle-thumb"
+          aria-label="Toggle availability"
+        ></label>
       </div>
     </div>
 
@@ -285,13 +321,15 @@
         <span class="material-symbols-outlined">save</span>
         Save to Menu
       </button>
-      <button type="button" class="btn-outline" onclick={handleCancel}>Cancel</button>
+      <button type="button" class="btn-outline" onclick={handleCancel}
+        >Cancel</button
+      >
     </div>
   </form>
 </main>
 
 <style>
-  :global(:root) {
+  :root {
     --font-brand: "Plus Jakarta Sans", sans-serif;
     --font-body: "Be Vietnam Pro", sans-serif;
     --radius-lg: 0.5rem;
@@ -304,7 +342,7 @@
     --spacing-gutter: 20px;
   }
 
-  :global(*, *::before, *::after) {
+  *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -356,7 +394,9 @@
     font-family: var(--font-body);
     font-size: 16px;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
     appearance: none;
   }
 
@@ -365,7 +405,9 @@
     box-shadow: 0 0 0 1px var(--color-primary);
   }
 
-  textarea.field-input { resize: none; }
+  textarea.field-input {
+    resize: none;
+  }
 
   .upload-zone {
     width: 100%;
@@ -382,8 +424,13 @@
     transition: border-color 0.2s;
   }
 
-  .upload-zone:hover { border-color: var(--color-primary); }
-  .upload-zone.has-preview { border-style: solid; border-color: var(--color-primary); }
+  .upload-zone:hover {
+    border-color: var(--color-primary);
+  }
+  .upload-zone.has-preview {
+    border-style: solid;
+    border-color: var(--color-primary);
+  }
 
   .preview-img {
     position: absolute;
@@ -406,12 +453,25 @@
     transition: color 0.2s;
   }
 
-  .upload-zone:hover .upload-icon { color: var(--color-primary); }
-  .upload-label { font-size: 14px; font-weight: 600; color: var(--color-on-surface-variant); }
-  .upload-caption { font-size: 12px; color: var(--color-outline); }
+  .upload-zone:hover .upload-icon {
+    color: var(--color-primary);
+  }
+  .upload-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-on-surface-variant);
+  }
+  .upload-caption {
+    font-size: 12px;
+    color: var(--color-outline);
+  }
 
-  .select-wrap { position: relative; }
-  .select-wrap select { padding-right: 48px; }
+  .select-wrap {
+    position: relative;
+  }
+  .select-wrap select {
+    padding-right: 48px;
+  }
 
   .select-arrow {
     position: absolute;
@@ -436,15 +496,37 @@
     padding: var(--spacing-md);
     border-radius: var(--radius-xl);
     background: var(--color-surface-container-high);
-    border: 1px solid color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
+    border: 1px solid
+      color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
   }
 
-  .toggle-text { display: flex; flex-direction: column; gap: 2px; }
-  .toggle-title { font-size: 14px; font-weight: 600; color: var(--color-on-surface); }
-  .toggle-caption { font-size: 12px; color: var(--color-on-surface-variant); }
+  .toggle-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .toggle-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-on-surface);
+  }
+  .toggle-caption {
+    font-size: 12px;
+    color: var(--color-on-surface-variant);
+  }
 
-  .toggle-track { position: relative; width: 48px; height: 24px; flex-shrink: 0; }
-  .toggle-input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .toggle-track {
+    position: relative;
+    width: 48px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  .toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 
   .toggle-thumb {
     display: block;
@@ -470,8 +552,12 @@
     transition: transform 0.3s;
   }
 
-  .toggle-track.active .toggle-thumb { background: var(--color-primary); }
-  .toggle-track.active .toggle-thumb::after { transform: translateX(24px); }
+  .toggle-track.active .toggle-thumb {
+    background: var(--color-primary);
+  }
+  .toggle-track.active .toggle-thumb::after {
+    transform: translateX(24px);
+  }
 
   .actions {
     display: flex;
@@ -496,11 +582,17 @@
     justify-content: center;
     gap: var(--spacing-sm);
     box-shadow: 0 4px 12px rgba(158, 0, 39, 0.3);
-    transition: filter 0.15s, transform 0.1s;
+    transition:
+      filter 0.15s,
+      transform 0.1s;
   }
 
-  .btn-primary:hover { filter: brightness(1.1); }
-  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:hover {
+    filter: brightness(1.1);
+  }
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
 
   .btn-outline {
     width: 100%;
@@ -513,9 +605,15 @@
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
+    transition:
+      background 0.15s,
+      transform 0.1s;
   }
 
-  .btn-outline:hover { background: color-mix(in srgb, var(--color-primary) 5%, transparent); }
-  .btn-outline:active { transform: scale(0.98); }
+  .btn-outline:hover {
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  }
+  .btn-outline:active {
+    transform: scale(0.98);
+  }
 </style>

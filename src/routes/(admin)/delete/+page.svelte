@@ -8,17 +8,17 @@
 
   <div class="flex flex-col gap-4">
     {#each data.menu as product}
-      <div class="flex items-center gap-3 rounded-2xl border border-white/10 bg-stone-900 p-3">
+      <div class="flex items-center gap-3 rounded-2xl border border-surface-container bg-surface p-3">
         <img
           src={product.imageUrl}
           alt={product.name}
           class="h-16 w-16 rounded-xl object-cover"
         />
         <div class="flex-1">
-          <h3 class="font-bold text-white">{product.name}</h3>
-          <p class="text-xs text-stone-400">{product.category} · ₦{product.price.toLocaleString()}</p>
+          <h3 class="font-bold text-primary">{product.name}</h3>
+          <p class="text-xs text-surface-tint">{product.category} · ₦{product.price.toLocaleString()}</p>
           {#if product.size}
-            <p class="text-xs text-stone-500">{product.size} inches · {product.layers} layers</p>
+            <p class="text-xs text-surface-tint">{product.size} inches · {product.layers} layers</p>
           {/if}
         </div>
         <form method="POST" action="?/delete" use:enhance>
