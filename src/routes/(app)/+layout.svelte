@@ -8,7 +8,7 @@
 </script>
 
 <main class="light">
-  <Header />
+  <Header mode="app" />
 
   {@render children()}
 

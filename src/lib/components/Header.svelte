@@ -1,3 +1,13 @@
+<script lang="ts">
+  import {
+    Dropdown,
+    DropdownItem,
+    DropdownDivider,
+    DropdownHeader,
+  } from "flowbite-svelte";
+  let { mode } = $props();
+</script>
+
 <header class="backdrop-blur-sm bg-black-0">
   <a href="/">
     <div class="header-left">
@@ -27,8 +37,19 @@
         <path
           d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5m0-8c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3M4 22h16c.55 0 1-.45 1-1v-1c0-3.86-3.14-7-7-7h-4c-3.86 0-7 3.14-7 7v1c0 .55.45 1 1 1m6-7h4c2.76 0 5 2.24 5 5H5c0-2.76 2.24-5 5-5"
         ></path>
-      </svg></span
-    >
+      </svg>
+      <Dropdown class="w-40" simple>
+        <DropdownHeader><p>Sign In</p></DropdownHeader>
+        <DropdownDivider />
+        {#if mode == "app"}
+          <!-- content here -->
+          <DropdownItem href="/manage">Admin Mode</DropdownItem>
+        {:else if mode == "admin"}
+          <!-- else if content here -->
+          <DropdownItem href="/menu">Customer Mode</DropdownItem>
+        {/if}
+      </Dropdown>
+    </span>
   </div>
 </header>
 
@@ -40,13 +61,15 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 80px;
   }
-
+  .header-right {
+    width: 20vw;
+  }
   .header-left,
   .header-right {
     display: flex;
@@ -68,7 +91,6 @@
     padding: 8px;
     border-radius: var(--radius-full);
     display: flex;
-    align-items: center;
     transition: background 0.15s;
     color: var(--color-on-surface-variant);
   }
