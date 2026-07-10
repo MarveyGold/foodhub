@@ -39,7 +39,7 @@
         ></path>
       </svg>
       <Dropdown class="w-40" simple>
-        <DropdownHeader><p>Sign In</p></DropdownHeader>
+        <DropdownHeader href="/login"><p>Sign In</p></DropdownHeader>
         <DropdownDivider />
         {#if mode == "app"}
           <!-- content here -->

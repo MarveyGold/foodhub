@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin 'flowbite/plugin';
 @custom-variant dark (&:where(.dark, .dark *));
 /* ... */
@@ -91,8 +91,6 @@
   background-color: #0c0a09;
 }
 
-
-
 .dark {
   --color-background: #0a0a0a;
   --color-on-background: #f0f0f0;
@@ -105,7 +103,6 @@
   --color-on-background: #1d1b18;
   --color-surface: var(--color-orange-100);
   --color-surface-container: var(--color-orange-200);
-
 }
 
 html {
@@ -120,5 +117,9 @@ body {
 }
 
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }

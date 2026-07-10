@@ -9,11 +9,11 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 };
 
 const populateLocals: Handle = async ({ event, resolve }) => {
-  console.log("Headers:", Object.fromEntries(event.request.headers));
+  // console.log("Headers:", Object.fromEntries(event.request.headers));
   const session = await auth.api.getSession({
     headers: event.request.headers,
   });
-  console.log("Session found:", !!session);
+  //  console.log("Session:", !!session);
   event.locals.session = session?.session ?? null;
   event.locals.user = session?.user ?? null;
   return resolve(event);

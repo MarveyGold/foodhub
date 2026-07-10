@@ -5,8 +5,8 @@ export async function connectDB() {
   if (mongoose.connection.readyState == 1) return;
   if (mongoose.connection.readyState == 2) {
     await new Promise((resolve, reject) => {
-      mongoose.connection.once('connected', resolve)
-      mongoose.connection.once('error', reject);
+      mongoose.connection.once("connected", resolve);
+      mongoose.connection.once("error", reject);
     });
     return;
   }
@@ -16,5 +16,3 @@ export async function connectDB() {
     serverSelectionTimeoutMS: 20000,
   });
 }
-
-

@@ -7,7 +7,14 @@
   {#if form?.error}
     <p class="error">{form.error}</p>
   {/if}
-  <input name="email" type="email" placeholder="Email" value={form?.email ?? ""} required />
+  <input
+    name="phone"
+    type="tel"
+    autocomplete="username"
+    placeholder="Phone Number"
+    value={form?.phone ?? ""}
+    required
+  />
   <input name="password" type="password" placeholder="Password" required />
   <button>Log in</button>
 </form>
