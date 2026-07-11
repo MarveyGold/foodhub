@@ -18,7 +18,7 @@ export const auth = betterAuth({
   plugins: [username()],
   user: {
     additionalFields: {
-      role: { type: "string", defaultValue: "student" },
+      role: { type: "string", defaultValue: "manager" },
     },
   },
   session: {
