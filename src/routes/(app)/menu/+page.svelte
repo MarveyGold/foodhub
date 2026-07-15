@@ -1,6 +1,13 @@
 <script>
   import { addToCart } from "$lib/cart";
-  import { Heart } from "@boxicons/svelte";
+  import { Heart } from "@boxicons/svelte"; 
+  import { preloadData } from "$app/navigation";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    preloadData("/menu?category=snacks");
+preloadData("/menu?category=cakes");
+  })
   const flavourGroups = {
     cake: [
       "Vanilla",

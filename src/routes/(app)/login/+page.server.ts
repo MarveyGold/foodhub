@@ -16,11 +16,11 @@ export const actions: Actions = {
       });
     } catch (err) {
       console.error(err);
-      return fail(401, { error: "Invalid email or password", username });
+      return fail(401, { error: "Invalid email or password", phone });
     }
 
     if (!response.ok) {
-      return fail(401, { error: "Invalid email or password", username });
+      return fail(401, { error: "Invalid email or password", phone });
     }
 
     const cookieStrings = response.headers.getSetCookie();

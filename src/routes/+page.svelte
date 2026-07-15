@@ -5,6 +5,12 @@
   import StorySection from "$lib/components/sections/StorySection.svelte";
   import CateringSection from "$lib/components/sections/CateringSection.svelte";
   import Footer from "$lib/components/Footer.svelte";
+  import { preloadData } from "$app/navigation";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    preloadData("/menu");
+  });
 </script>
 
 <Navbar />

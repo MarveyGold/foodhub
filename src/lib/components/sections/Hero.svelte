@@ -49,18 +49,18 @@
           just for you
         </p>
         <div class="flex gap-4 pt-4">
-          <button
-            onclick={() => goto("/cart")}
+          <a
+            href="/cart"
             class="transform rounded-xl bg-[#f54504] px-6 py-4 text-lg font-bold text-white shadow-xl shadow-[#f54504]/20 transition-all hover:bg-[#9e0027] active:scale-95"
           >
             Order Now
-          </button>
-          <button
-            onclick={() => goto("/menu")}
+          </a>
+          <a
+            href="/menu"
             class="transform rounded-xl border-2 border-amber-500 bg-transparent px-6 py-4 text-lg font-bold text-amber-500 transition-all hover:bg-amber-500/10 active:scale-95"
           >
             View Menu
-          </button>
+          </a>
         </div>
       </div>
 

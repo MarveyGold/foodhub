@@ -4,8 +4,12 @@
     DropdownItem,
     DropdownDivider,
     DropdownHeader,
+    DropdownGroup,
   } from "flowbite-svelte";
+  import { page } from "$app/state";
   let { mode } = $props();
+  let data = page.data;
+ // $inspect(data);
 </script>
 
 <header class="backdrop-blur-sm bg-black-0">
@@ -39,15 +43,23 @@
         ></path>
       </svg>
       <Dropdown class="w-40" simple>
-        <DropdownHeader href="/login"><p>Sign In</p></DropdownHeader>
-        <DropdownDivider />
-        {#if mode == "app"}
-          <!-- content here -->
-          <DropdownItem href="/manage">Admin Mode</DropdownItem>
-        {:else if mode == "admin"}
-          <!-- else if content here -->
-          <DropdownItem href="/menu">Customer Mode</DropdownItem>
-        {/if}
+        <DropdownHeader>
+          {#if data.user}
+            <!-- content here -->
+            <span class="block text-sm text-grey-755">{data.user.name}</span>
+          {:else}
+            <a href="/login">Sign In</a>
+          {/if}
+        </DropdownHeader>
+        <DropdownGroup>
+          {#if mode == "app"}
+            <!-- content here -->
+            <DropdownItem href="/manage">Admin Mode</DropdownItem>
+          {:else if mode == "admin"}
+            <!-- else if content here -->
+            <DropdownItem href="/menu">Customer Mode</DropdownItem>
+          {/if}
+        </DropdownGroup>
       </Dropdown>
     </span>
   </div>

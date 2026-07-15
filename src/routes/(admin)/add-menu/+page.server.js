@@ -3,9 +3,12 @@ import {
   CLOUDINARY_UPLOAD_PRESET,
 } from "$env/static/private";
 import { addProduct } from "$lib/server/products.js";
+import { requirePermission } from "$lib/server/permissions";
 
 export const actions = {
   default: async ({ request }) => {
+    await requirePermission(request.headers, { product: ["create"] });
+
     const data = await request.formData();
 
     const name = data.get("name");
@@ -23,9 +26,8 @@ export const actions = {
     );
 
     if (!res.ok) {
-      const error = await res.json();
-      return { success: false, error: error.error?.message || "Upload failed" };
-      console.log(error);
+      const errorBody = await res.json();
+      return { success: false, error: errorBody.error?.message || "Upload failed" };
     }
 
     const { secure_url } = await res.json();

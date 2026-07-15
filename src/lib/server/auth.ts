@@ -3,7 +3,8 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import mongoose from "mongoose";
 import { connectDB } from "./db";
 import { ORIGIN } from "$env/static/private";
-import { username } from "better-auth/plugins";
+import { username, admin } from "better-auth/plugins";
+import { ac, manager, staff, customer } from "./access-control";
 
 await connectDB();
 const client = mongoose.connection.getClient();
@@ -15,12 +16,15 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  plugins: [username()],
-  user: {
-    additionalFields: {
-      role: { type: "string", defaultValue: "manager" },
-    },
-  },
+  plugins: [
+    username(),
+    admin({
+      defaultRole: "customer",
+      adminRoles: ["manager"],
+      ac,
+      roles: { manager, staff, customer },
+    })
+  ],
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24,

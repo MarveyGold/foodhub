@@ -1,3 +1,6 @@
+<svelte:head>
+  <title>Admin | Hadeva Bakes</title>
+</svelte:head>
 <main class="p-4 pb-24 max-w-lg mx-auto">
   <h2 class="text-2xl font-bold text-(--color-on-background) mb-2">Admin Panel</h2>
   <p class="text-on-background text-sm mb-6">Manage Hadeva Bakes</p>

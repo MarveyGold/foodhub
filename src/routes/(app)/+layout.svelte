@@ -7,10 +7,6 @@
   let { children } = $props();
 </script>
 
-<main class="light">
-  <Header mode="app" />
-
-  {@render children()}
-
-  <MobileNav />
-</main>
+<Header mode="app" />
+{@render children()}
+<MobileNav />
