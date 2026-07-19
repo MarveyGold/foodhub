@@ -1,6 +1,6 @@
 import { deleteProduct } from "$lib/server/products";
 import { getProducts } from "$lib/server/products";
-import { requirePermission } from "$lib/server/permission"
+import { requirePermission } from "$lib/server/permission.ts"
 export async function load() {
   const menu = await getProducts();
   return { menu };
