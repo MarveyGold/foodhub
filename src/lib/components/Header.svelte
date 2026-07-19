@@ -43,14 +43,16 @@
         ></path>
       </svg>
       <Dropdown class="w-40" simple>
+{if data.user}
         <DropdownHeader>
-          {#if data.user}
             <!-- content here -->
             <span class="block text-sm text-grey-755">{data.user.name}</span>
+  <span class="block truncate text-sm font-medium">{data.user.username}</span>
           {:else}
             <a href="/login">Sign In</a>
-          {/if}
+          
         </DropdownHeader>
+{/if}
         {#if data.user.role == "manager" }
            <DropdownGroup>
           {#if mode == "app"}
