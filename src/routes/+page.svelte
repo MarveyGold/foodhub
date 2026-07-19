@@ -13,9 +13,17 @@
   });
 </script>
 
-<Navbar />
+<div class="dark">
+  <Navbar />
 
-<Hero />
-<MenuSection />
-<StorySection />
-<CateringSection /><Footer />
+  <Hero />
+  <MenuSection />
+  <StorySection />
+  <CateringSection /><Footer />
+</div>
+
+<style>
+  div {
+    background-color: #0a0a0a;
+  }
+</style>

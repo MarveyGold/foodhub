@@ -2,7 +2,8 @@
   import { enhance } from "$app/forms";
 
   let { data, form } = $props();
-
+let start = $state(data.startDate ?? "");
+  let end = $state(data.endDate ?? "");
   let toast = $state(false);
   $effect(() => {
     if (form?.success || form?.error) {
@@ -20,6 +21,20 @@
 </script>
 
 <main class="mx-auto max-w-lg p-4 pb-24">
+  <form method="GET" class="flex gap-2 items-end mb-6">
+  <div>
+    <label class="block text-xs text-gray-500 mb-1" for="start">From</label>
+    <input id="start" type="date" name="start" bind:value={start} class="border rounded px-3 py-2 text-sm" />
+  </div>
+  <div>
+    <label class="block text-xs text-gray-500 mb-1" for="end">To</label>
+    <input id="end" type="date" name="end" bind:value={end} class="border rounded px-3 py-2 text-sm" />
+  </div>
+  <button type="submit" class="px-4 py-2 rounded bg-black text-white text-sm">Filter</button>
+  {#if data.startDate || data.endDate}
+    <a href="?" class="px-4 py-2 rounded border text-sm">Clear</a>
+  {/if}
+</form>
   <h2 class="mb-2 text-2xl font-bold text-(--color-on-background)">Orders</h2>
   <p class="mb-6 text-sm text-on-background">{data.orders.length} total</p>
 

@@ -1,5 +1,5 @@
 import { deleteProduct } from "$lib/server/products";
-importy { getProducts } from "$lib/server/products";
+import { getProducts } from "$lib/server/products";
 import { requirePermission } from "$lib/server/permission"
 export async function load() {
   const menu = await getProducts();

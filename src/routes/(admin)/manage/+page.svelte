@@ -55,7 +55,7 @@
     </a>
 
     <a
-      href="/orders"
+      href="/manage/orders"
       class="flex items-center gap-4 rounded-2xl border border-surface-container bg-surface p-4 active:bg-stone-800 transition"
     >
       <div

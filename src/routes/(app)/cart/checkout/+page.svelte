@@ -2,10 +2,10 @@
   import { enhance } from "$app/forms";
   import { cartStore, clearCart } from "$lib/cart";
 
-  let { form } = $props();
-
-  let customerName = $state("");
-  let customerPhone = $state("");
+  let { form, data } = $props();
+  
+  let customerName = $state(data.user?.name);
+  let customerPhone = $state(data.user?.username);
   let deliveryType = $state("pickup");
   let address = $state("");
   let notes = $state("");

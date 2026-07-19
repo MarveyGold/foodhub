@@ -1,7 +1,7 @@
 import { getProducts } from "$lib/server/products";
 
 const cache = new Map();
-const TTL = 1800_000
+const TTL = 1800000_000
 
 
 async function getCachedProducts(category) {

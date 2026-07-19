@@ -11,8 +11,7 @@
 <nav
   class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3"
 >
-  <button
-    onclick={() => goto("/manage")}
+  <a href="/manage"
     class={active == "manage"
       ? "flex flex-col items-center text-amber-500"
       : "flex flex-col items-center text-stone-500"}
@@ -29,10 +28,10 @@
       />
     </svg>
     <span class="mt-1 text-[10px] tracking-tighter uppercase">Manage</span>
-  </button>
+  </a>
 
-  <button
-    onclick={() => goto("/add-menu")}
+  <a
+    href="/add-menu"
     class={active == "add-menu"
       ? "flex flex-col items-center text-amber-500"
       : "flex flex-col items-center text-stone-500"}
@@ -47,10 +46,10 @@
       <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
     </svg>
     <span class="mt-1 text-[10px] tracking-tighter uppercase">Add</span>
-  </button>
+  </a>
 
-  <button
-    onclick={() => goto("/delete")}
+  <a
+    href="/delete"
     class={active == "delete"
       ? "flex flex-col items-center text-amber-500"
       : "flex flex-col items-center text-stone-500"}
@@ -67,10 +66,10 @@
       />
     </svg>
     <span class="mt-1 text-[10px] tracking-tighter uppercase">Menu</span>
-  </button>
+  </a>
 
-  <button
-    onclick={() => goto("/orders")}
+  <a
+    href="/manage/orders"
     class={active == "orders"
       ? "flex flex-col items-center text-amber-500"
       : "flex flex-col items-center text-stone-500"}
@@ -87,5 +86,5 @@
       /><path d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z" />
     </svg>
     <span class="mt-1 text-[10px] tracking-tighter uppercase">Orders</span>
-  </button>
+  </a>
 </nav>

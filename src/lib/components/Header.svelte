@@ -51,7 +51,8 @@
             <a href="/login">Sign In</a>
           {/if}
         </DropdownHeader>
-        <DropdownGroup>
+        {#if data.user.role == "manager" }
+           <DropdownGroup>
           {#if mode == "app"}
             <!-- content here -->
             <DropdownItem href="/manage">Admin Mode</DropdownItem>
@@ -60,7 +61,9 @@
             <DropdownItem href="/menu">Customer Mode</DropdownItem>
           {/if}
         </DropdownGroup>
-      </Dropdown>
+
+        {/if}
+              </Dropdown>
     </span>
   </div>
 </header>

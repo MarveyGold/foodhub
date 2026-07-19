@@ -4,10 +4,14 @@ import { requirePermission } from "$lib/server/permissions";
 
 const STATUSES = ["pending", "confirmed", "preparing", "ready", "completed", "cancelled"];
 
-export async function load({ request }) {
+export async function load({ request, url }) {
   await requirePermission(request.headers, { order: ["view"] });
-  const orders = await getAllOrders();
-  return { orders, statuses: STATUSES };
+
+  const startDate = url.searchParams.get("start") || undefined;
+  const endDate = url.searchParams.get("end") || undefined;
+
+  const orders = await getAllOrders({ startDate, endDate });
+  return { orders, statuses: STATUSES, startDate, endDate };
 }
 
 export const actions = {

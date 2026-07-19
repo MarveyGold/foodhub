@@ -63,7 +63,7 @@
           onclick={() => scrollToSection(section)}
           class={active == section
             ? " border-amber-500  text-amber-500 pb-1 text-sm font-bold tracking-wide font-jakarta border-b-2 "
-            : "pb-1 text-sm font-bold font-jakarta border-b-2 tracking-wide"}
+            : "pb-1 text-sm text-surface font-bold font-jakarta border-b-2 tracking-wide"}
           >{section.charAt(0).toUpperCase() + section.slice(1)}</button
         >
       {/each}
