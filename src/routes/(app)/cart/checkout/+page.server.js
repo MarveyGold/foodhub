@@ -1,6 +1,6 @@
 import { auth } from "$lib/server/auth";
 import { fail } from "@sveltejs/kit";
-import { addOrder } from "$lib/server/orders";
+import { createOrder } from "$lib/server/orders";
 import { WHATSAPP_NUMBER } from "$env/static/private";
 
 export const actions = {
@@ -30,7 +30,7 @@ export const actions = {
       return fail(400, { error: "Your cart looks empty. Please add items first." });
     }
 
-    const order = await addOrder({
+    const order = await createOrder({
       userId: session?.user?.id, // undefined if guest — fine now that it's optional
       customerName,
       customerPhone,
