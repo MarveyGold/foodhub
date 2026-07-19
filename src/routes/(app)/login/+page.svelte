@@ -83,11 +83,11 @@
 
 <style>
   .login-page {
-    min-height: 100dvh;
+    min-height: 70dvh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: 12px;
     background: radial-gradient(circle at 20% 0%, #3a2317 0%, #1f1410 55%);
   }
 
@@ -97,7 +97,7 @@
     background: #2a1b14;
     border: 1px solid rgba(242, 102, 31, 0.25);
     border-radius: 28px;
-    padding: 32px 28px;
+    padding: 16px 14px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   }
 
