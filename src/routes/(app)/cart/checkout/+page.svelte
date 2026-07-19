@@ -11,7 +11,7 @@
   let notes = $state("");
   let submitting = $state(false);
 
-  let total = $derived($cartStore.reduce((sum, i) => sum + i.cost * i.quantity, 0));
+  let total = $derived($cartStore.reduce((sum, i) => sum + i.cost, 0));
 </script>
 
 {#if $cartStore.length === 0 && !form?.success}
