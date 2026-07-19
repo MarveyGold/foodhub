@@ -1,6 +1,6 @@
 import { Order } from "./models/order.ts";
 
-export async function addOrder({ event, userId, customerName, customerPhone, deliveryType, address, notes, items }) {
+export async function createOrder({ event, userId, customerName, customerPhone, deliveryType, address, notes, items }) {
   const total = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
 
   const normalizedItems = items.map((item) => ({
