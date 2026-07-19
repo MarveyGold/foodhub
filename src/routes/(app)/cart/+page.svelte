@@ -3,7 +3,7 @@
   $effect(() => syncCart());
 
   let total = $derived(
-    $cartStore.reduce((sum, i) => sum + i.cost * i.quantity, 0),
+    $cartStore.reduce((sum, i) => sum + i.cost, 0),
   );
 </script>
 
