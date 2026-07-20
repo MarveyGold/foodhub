@@ -41,7 +41,7 @@ export const actions = {
     }); const lines = items.map(
       (i) => `- ${i.name}${i.flavour ? ` (${i.flavour})` : ""} x${i.quantity} — ₦${(i.cost * i.quantity).toLocaleString()}`
     );
-    const total = items.reduce((sum, i) => sum + i.cost * i.quantity, 0);
+    const total = items.reduce((sum, i) => sum + i.cost, 0);
 
     const message = [
       `New order from ${customerName}`,
