@@ -14,7 +14,6 @@
 
     if (active !== "menu") preloadData("/menu");
     if (active !== "orders") preloadData("/orders");
-    if (active !== "profile") preloadData("/profile");
   });
 </script>
 
