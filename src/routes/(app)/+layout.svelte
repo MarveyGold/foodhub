@@ -8,13 +8,14 @@
   let { children } = $props();
 
   let active = $derived(page.url.pathname.slice(1));
+$effect(() => {
+	if (typeof window === 'undefined') return;
 
-  $effect(() => {
-    if (typeof window === "undefined") return;
-
-    if (active !== "menu") preloadData("/menu");
-    if (active !== "orders") preloadData("/orders");
-  });
+	(async () => {
+		await preloadData('/menu');
+		preloadData('/orders');
+	})();
+});
 </script>
 
 <Header mode="app" />
