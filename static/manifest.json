@@ -1,0 +1,88 @@
+{
+  "name": "Hadeva Bakes",
+  "short_name": "Hadeva Bakes",
+  "description": "Order fresh cakes, pastries, and baked goods online from Hadeva Bakes.",
+  "start_url": "/menu",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fafafa",
+  "theme_color": "#f54504",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": [
+    "food",
+    "shopping",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshot-mobile.png",
+      "sizes": "320x563",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Browse cakes and snacks on mobile"
+    },
+    {
+      "src": "/screenshots/screenshot-desktop.png",
+      "sizes": "1240x620",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Browse cakes and snacks on desktop"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Cart",
+      "short_name": "Cart",
+      "url": "/cart",
+      "description": "View your cart and checkout",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Track Order",
+      "short_name": "Orders",
+      "url": "/orders",
+      "description": "Check your order status",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

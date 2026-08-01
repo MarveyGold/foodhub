@@ -166,14 +166,14 @@ preloadData("/menu?category=cakes");
 
 <!-- Menu grid -->
 <div class="p-2 pb-18">
-  <div class="grid grid-cols-2 gap-1 md:grid-cols-12">
+  <div class="grid grid-cols-2 gap-1 md:grid-cols-4">
     {#each data.menu as menu}
       <div
         role="button"
         tabindex="0"
         onclick={() => (item = menu)}
         onkeydown={(e) => e.key === "Enter" && (item = menu)}
-        class="group cursor-pointer shadow-lg overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-surface-container bg-surface transition-all duration-300 active:border-amber-500/30"
+        class="md:w-full group cursor-pointer shadow-lg overflow-hidden grid grid-rows-[auto_auto_1fr_auto] rounded-3xl border border-surface-container bg-surface transition-all duration-300 active:border-amber-500/30"
       >
         <div class="relative h-24 overflow-hidden">
           <img
