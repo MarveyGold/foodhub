@@ -5,7 +5,7 @@
 </script>
 
 <nav
-  class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3 backdrop-blur-3xl"
+  class="fixed md:hidden bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3 backdrop-blur-3xl"
 >
   <a
     href="/menu"

@@ -9,7 +9,7 @@
 <Header mode="admin" />
 {@render children()}
 <nav
-  class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3"
+  class="fixed bottom-0 left-0 z-50 flex md:hidden w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3"
 >
   <a href="/manage"
     class={active == "manage"

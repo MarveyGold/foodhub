@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-
   let active = $state("home");
   let menuOpen = $state(false);
 
@@ -39,10 +38,10 @@
   });
 </script>
 
-<nav
-  class="fixed top-0 z-50 w-full border-b border-white/10 bg-stone-950/90 shadow-xl backdrop-blur-md h-[10dvh]"
->
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
+<nav class="fixed top-0 h-40 z-50 w-full shadow-xl">
+  <div
+    class="mx-auto flex max-w-7xl items-center backdrop-blur-md border-b border-white/10 bg-stone-950/90 justify-between px-4 py-2"
+  >
     <div class="header-left">
       <button class="icon-btn" aria-label="Go back">
         <span class="material-symbols-outlined primary-icon"
