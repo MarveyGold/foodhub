@@ -11,6 +11,7 @@ export async function connectDB() {
     return;
   }
   await mongoose.connect(MONGODB_URI, {
+    dbName: "Hadeva_Bakes",
     bufferCommands: false,
     family: 4,
     serverSelectionTimeoutMS: 20000,
