@@ -1,13 +1,13 @@
 <script>
   import { addToCart } from "$lib/cart";
-  import { Heart } from "@boxicons/svelte"; 
+  import { Heart } from "@boxicons/svelte";
   import { preloadData } from "$app/navigation";
   import { onMount } from "svelte";
 
   onMount(() => {
     preloadData("/menu?category=snacks");
-preloadData("/menu?category=cakes");
-  })
+    preloadData("/menu?category=cakes");
+  });
   const flavourGroups = {
     cake: [
       "Vanilla",
@@ -26,20 +26,37 @@ preloadData("/menu?category=cakes");
   let item = $state();
   let price = $derived(item?.price * quantity);
   let toast = $state(false);
+  const categories = ["cakes", "snacks"];
 
   function showToast() {
     toast = true;
-    setTimeout(() => (toast = false), 2000);
+    setTimeout(() => (toast = false), 3000);
   }
-</script>
+  // sliding pill indicator 
+  let tabEls = $state({});
+  let indicatorEl = $state();
+
+  $effect(() => {
+    const key = data.category ?? 'all';
+    const el = tabEls[key];
+    if (!el || !indicatorEl) return;
+    indicatorEl.style.transform = `translateX(${el.offsetLeft}px)`;
+    indicatorEl.style.width = `${el.offsetWidth}px`;
+  });
+  </script>
 
 <svelte:head>
   <title>Menu | Hadeva Bakes</title>
-  <meta name="description" content="Browse our full menu of cakes, snacks and drinks." />
+  <meta
+    name="description"
+    content="Browse our full menu of cakes, snacks and drinks."
+  />
 </svelte:head>
 
 {#if toast}
-  <div class="fixed top-56 left-1/2 -translate-x-1/2 z-50 bg-primary text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg">
+  <div
+    class="fixed top-56 left-1/2 -translate-x-1/2 z-50 bg-primary text-white text-sm font-semibold px-6 py-3 rounded-full shadow-lg"
+  >
     Added to cart ✓
   </div>
 {/if}
@@ -52,7 +69,9 @@ preloadData("/menu?category=cakes");
     aria-label="Close"
   ></button>
 
-  <div class="fixed z-50 pb-26 bottom-0 left-0 right-0 rounded-t-3xl bg-orange-50 p-5 shadow-2xl max-h-[85vh] overflow-y-auto">
+  <div
+    class="fixed z-50 pb-26 md:pb-2 bottom-0 left-0 right-0 rounded-t-3xl bg-orange-50 p-5 shadow-2xl max-h-[85vh] overflow-y-auto"
+  >
     <!-- Handle -->
     <div class="mx-auto mb-4 h-1 w-10 rounded-full bg-stone-300"></div>
 
@@ -86,7 +105,11 @@ preloadData("/menu?category=cakes");
 
     <!-- Flavour picker -->
     {#if item.category === "cake"}
-      <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2">Flavour</p>
+      <p
+        class="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2"
+      >
+        Flavour
+      </p>
       <div class="flex flex-wrap gap-2 mb-4">
         {#each flavourGroups.cake as f}
           <button
@@ -97,41 +120,71 @@ preloadData("/menu?category=cakes");
             class:text-[#e85d8a]={f === flavour}
             class:border-stone-200={f !== flavour}
             class:bg-white={f !== flavour}
-            class:text-stone-600={f !== flavour}
-          >{f}</button>
+            class:text-stone-600={f !== flavour}>{f}</button
+          >
         {/each}
       </div>
     {/if}
 
     <!-- Quantity + CTA -->
-    <div class="flex items-center gap-3 mt-2">
+    <div class="flex items-center gap-x-4 px-4 mt-2">
       <!-- Quantity control -->
-      <div class="flex items-center gap-3 bg-orange-100 border border-orange-200 rounded-2xl px-3 py-2">
+      <div
+        class="flex items-center gap-x-3 flex-shrink-0 bg-orange-100 border border-orange-200 rounded-2xl px-3 py-2"
+      >
         <button
-          onclick={() => { if (quantity > 1) quantity-- }}
+          onclick={() => {
+            if (quantity > 1) quantity--;
+          }}
           class="text-xl font-bold text-stone-500 w-6 text-center leading-none"
-        >−</button>
-        <span class="text-base font-bold text-(--color-primary) w-5 text-center">{quantity}</span>
+          >−</button
+        >
+        <span class="text-base font-bold text-(--color-primary) w-5 text-center"
+          >{quantity}</span
+        >
         <button
           onclick={() => quantity++}
           class="text-xl font-bold text-stone-500 w-6 text-center leading-none"
-        >+</button>
+          >+</button
+        >
       </div>
 
       <!-- Add to cart -->
       <button
         class="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-(--color-primary) h-12 text-white font-semibold text-sm transition-transform active:scale-95"
         onclick={() => {
+          toast = false;
           item.category === "cake"
-            ? addToCart({ ...item, id: crypto.randomUUID(), flavour, quantity, cost: price })
-            : addToCart({ ...item, id: crypto.randomUUID(), quantity, cost: price });
+            ? addToCart({
+                ...item,
+                id: crypto.randomUUID(),
+                flavour,
+                quantity,
+                cost: price,
+              })
+            : addToCart({
+                ...item,
+                id: crypto.randomUUID(),
+                quantity,
+                cost: price,
+              });
           item = 0;
           showToast();
         }}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17.31 14H9.72L5.95 2.68A1 1 0 0 0 5 2H2v2h2.28l3.54 10.63A2 2 0 0 0 9.72 16h7.59a2 2 0 0 0 1.87-1.3l2.76-7.35-1.87-.7zM10 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"/>
-          <path d="m11.71 7.29-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42L13 8.59z"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M17.31 14H9.72L5.95 2.68A1 1 0 0 0 5 2H2v2h2.28l3.54 10.63A2 2 0 0 0 9.72 16h7.59a2 2 0 0 0 1.87-1.3l2.76-7.35-1.87-.7zM10 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"
+          />
+          <path
+            d="m11.71 7.29-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42L13 8.59z"
+          />
         </svg>
         Add to Cart · ₦{price.toLocaleString()}
       </button>
@@ -140,33 +193,32 @@ preloadData("/menu?category=cakes");
 {/if}
 
 <!-- Category tabs -->
-<div class="w-[90vw] ml-[5vw] justify-between gap-2 flex rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800">
-  <a href="/menu">
-    <span
-      class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-      class:text-amber-500={!data.category}
-      class:text-stone-400={data.category}
-    >All</span>
-  </a>
-  <a href="/menu?category=cake">
-    <span
-      class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-      class:text-stone-400={data.category !== "cake"}
-      class:text-amber-500={data.category === "cake"}
-    >Cakes</span>
-  </a>
-  <a href="/menu?category=snacks">
-    <span
-      class="cursor-pointer rounded-full border border-white/5 bg-stone-900 px-4 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
-      class:text-stone-400={data.category !== "snacks"}
-      class:text-amber-500={data.category === "snacks"}
-    >Snacks</span>
-  </a>
+<div
+  class=" max-w-md w-[95vw] mx-auto relative justify-between gap-x-4 flex rounded-full border border-white/5 bg-stone-900 px-2 py-2 text-sm font-semibold tracking-wide active:bg-stone-800"
+>
+<span
+    bind:this={indicatorEl}
+    class="absolute top-1 bottom-1 left-0 rounded-full border border-white/5 bg-stone-800 transition-[transform,width] duration-300 ease-out z-0"
+  ></span> 
+  <a href="/menu" bind:this={tabEls.all}
+     class="relative z-10 cursor-pointer px-4 py-2 text-sm font-semibold tracking-wide"
+     class:text-amber-500={!data.category} class:text-stone-400={data.category}>
+    All
+  </a>  {#each categories as cat}
+     <!-- content here -->
+<a href="/menu?category={cat}" bind:this={tabEls[cat]}
+       class="relative z-10 cursor-pointer px-4 py-2 text-sm font-semibold tracking-wide"
+       class:text-stone-400={data.category !== cat} class:text-amber-500={data.category === cat}>
+      {cat.charAt(0).toUpperCase() + cat.slice(1)}
+    </a>
+  {/each}
 </div>
 
 <!-- Menu grid -->
-<div class="p-2 pb-18">
-  <div class="grid grid-cols-2 gap-1 md:grid-cols-4">
+<div class="p-2 pb-18 max-w-screen-xl mx-auto">
+  <div
+    class="grid grid-cols-2 gap-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+  >
     {#each data.menu as menu}
       <div
         role="button"

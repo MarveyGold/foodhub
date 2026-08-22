@@ -2,31 +2,26 @@
   import { cartStore, syncCart, removeItem } from "$lib/cart";
   $effect(() => syncCart());
 
-  let total = $derived(
-    $cartStore.reduce((sum, i) => sum + i.cost, 0),
-  );
+  let total = $derived($cartStore.reduce((sum, i) => sum + i.cost, 0));
 </script>
 
 {#if $cartStore.length === 0}
   <section
     id="cart"
-    class="py-20 px-6 h-[80vh] w-[95vw] flex flex-col text-(--color-on-background) items-center justify-between"
+    class="py-20 px-6 h-[80vh] w-[95vw] mx-auto flex flex-col text-(--color-on-background) items-center justify-between"
   >
     <h2>Cart Is Empty</h2>
     <div>
       <p>Oops! Looks like your cart is empty.</p>
       <p>Check out the menu and add your favourite items to the cart</p>
     </div>
-    <a href="/menu">
-      <button
-        class="transform rounded-xl border-2 border-amber-500 bg-transparent px-6 py-4 text-lg font-bold text-amber-500 transition-all hover:bg-amber-500/10 active:scale-95 w-[80vw]"
-      >
-        View Menu
-      </button>
-    </a>
+
+    <a href="/menu" class="mt-4 inline-block text-amber-500 underline"
+      >Browse the menu</a
+    >
   </section>
 {:else}
-  <div class="p-4 pb-24">
+  <div class="p-4 pb-38 md:pb-49">
     <h2 class="text-2xl font-bold text-white mb-6">Your Cart</h2>
     <div class="flex flex-col gap-4">
       {#each $cartStore as item (item.id)}
@@ -74,7 +69,9 @@
     </div>
 
     <div
-      class="fixed bottom-20 left-0 w-full bg-surface border-t border-surface-container p-4 flex flex-col gap-3"
+      class="fixed bottom-20 max-w-md mx-auto self-center
+      md:bottom-0.5 inset-x-0 w-full bg-surface border-t border-surface-container
+      p-4 flex flex-col gap-3"
     >
       <div class="flex justify-between font-bold text-surface-tint">
         <span>Total</span>
@@ -84,7 +81,7 @@
         <button
           class="w-full rounded-xl bg-amber-500 text-black font-bold px-6 py-4 active:scale-95 transition"
         >
-          Proceed to Checkout
+          Checkout
         </button>
       </a>
     </div>

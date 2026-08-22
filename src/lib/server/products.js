@@ -48,4 +48,4 @@ export async function deleteProduct(_id) {
   const result = await Menu.findByIdAndDelete(_id);
   invalidateProductCache();
   return result;
-                  }
+}

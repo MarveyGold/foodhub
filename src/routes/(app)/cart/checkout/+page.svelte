@@ -40,7 +40,7 @@
         submitting = false;
       };
     }}
-    class="p-4 pb-24 flex flex-col gap-4"
+    class="p-4 pb-24 md:pb-2 md:fixed md:bottom-2 mx-auto md:inset-x-0 flex flex-col gap-4"
   >
     <input type="hidden" name="items" value={JSON.stringify($cartStore)} />
 

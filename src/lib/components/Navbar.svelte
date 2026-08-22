@@ -40,7 +40,7 @@
 
 <nav class="fixed top-0 h-40 z-50 w-full shadow-xl">
   <div
-    class="mx-auto flex max-w-7xl items-center backdrop-blur-md border-b border-white/10 bg-stone-950/90 justify-between px-4 py-2"
+    class="mx-auto rounded-xl flex max-w-7xl items-center backdrop-blur-md border-b border-white/10 bg-stone-950/90 justify-between px-4 py-2"
   >
     <div class="header-left">
       <button class="icon-btn" aria-label="Go back">
