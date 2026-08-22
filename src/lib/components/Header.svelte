@@ -91,29 +91,7 @@
             >
           </DropdownItem>
 
-          <DropdownItem
-            aria-label="cart"
-            href="/cart"
-            class={active == "cart"
-              ? "flex  items-center text-amber-500"
-              : "flex items-center text-stone-500"}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              fill="currentColor"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path
-                class:text-amber-500={active == "cart"}
-                class:text-stone-950={active !== "cart"}
-                d="M21 4H6.17l-.18-1.15A1 1 0 0 0 5 2H2v2h2.14l1.87 12.15A1 1 0 0 0 7 17h12v-2H7.86l-.31-2H19c.45 0 .84-.3.96-.73l2-7A1 1 0 0 0 21 3.99Zm-2.75 7H7.24l-.77-5h13.2l-1.43 5ZM8 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m9 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"
-              />
-            </svg>
-            <span class="mt-1 text-[10px] uppercase tracking-tighter">Cart</span
-            >
-          </DropdownItem>
+         
 
           <DropdownItem
             href="/orders"
@@ -172,7 +150,26 @@
           {/if}
         </DropdownGroup>
       </Dropdown>
-    </span>
+    </span> <a            aria-label="cart"
+            href="/cart"
+            class={active == "cart"
+              ? "flex  items-center text-amber-500"
+              : "flex items-center text-stone-500"}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              fill="currentColor"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                class:text-amber-500={active == "cart"}
+                class:text-stone-950={active !== "cart"}
+                d="M21 4H6.17l-.18-1.15A1 1 0 0 0 5 2H2v2h2.14l1.87 12.15A1 1 0 0 0 7 17h12v-2H7.86l-.31-2H19c.45 0 .84-.3.96-.73l2-7A1 1 0 0 0 21 3.99Zm-2.75 7H7.24l-.77-5h13.2l-1.43 5ZM8 18a2 2 0 1 0 0 4 2 2 0 1 0 0-4m9 0a2 2 0 1 0 0 4 2 2 0 1 0 0-4"
+              />
+            </svg>
+                      </a>
   </div>
 </header>
 
