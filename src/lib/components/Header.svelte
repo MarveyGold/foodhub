@@ -153,8 +153,8 @@
     </span> <a            aria-label="cart"
             href="/cart"
             class={active == "cart"
-              ? "flex  items-center text-amber-500"
-              : "flex items-center text-stone-500"}
+              ? "hidden md:flex  items-center text-amber-500"
+              : "hidden md:flex items-center text-stone-500"}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
