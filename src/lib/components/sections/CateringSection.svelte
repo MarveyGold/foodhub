@@ -1,4 +1,25 @@
-<!-- src/lib/components/sections/DineInSection.svelte -->
+<script>
+	const contacts = [
+		{
+			name: 'WhatsApp',
+			handle: '+2348050257305',
+			href: 'https://wa.me/+2348050257305',
+			icon: 'whatsapp'
+		},
+		{
+			name: 'Instagram',
+			handle: '@hadevabakes',
+			href: 'https://instagram.com/hadevabakes',
+			icon: 'instagram'
+		},
+		{
+			name: 'Facebook',
+			handle: 'Hadeva Bakes',
+			href: 'https://www.facebook.com/profile.php?id=61584115490305',
+			icon: 'facebook'
+		}
+	];
+</script>
 <section id="contact" class="bg-stone-900/30 py-24">
   <div class="mx-auto max-w-5xl px-6 text-center">
     <div class="mb-12 grid gap-8 md:grid-cols-3">
@@ -64,7 +85,7 @@
           Quick Pickup
         </h4>
         <p class="text-xs leading-relaxed text-stone-500">
-          Order online and pick up your f
+          Order online and pick up your favourites
         </p>
       </div>
 
