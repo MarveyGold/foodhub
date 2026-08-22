@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { MONGODB_URI } from "$env/static/private";
 import { resolve } from "dns";
+import { dev } from "$app/environment"
 export async function connectDB() {
   if (mongoose.connection.readyState == 1) return;
   if (mongoose.connection.readyState == 2) {
@@ -11,7 +12,7 @@ export async function connectDB() {
     return;
   }
   await mongoose.connect(MONGODB_URI, {
-    dbName: "Hadeva_Bakes",
+    ...(!dev && { dbName: "Hadeva_Bakes" }),
     bufferCommands: false,
     family: 4,
     serverSelectionTimeoutMS: 20000,
