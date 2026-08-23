@@ -68,11 +68,22 @@
     onclick={() => (item = 0)}
     aria-label="Close"
   ></button>
-
-  <div
-    class="fixed z-50 pb-26 md:pb-2 bottom-0 left-0 right-0 rounded-t-3xl bg-orange-50 p-5 shadow-2xl max-h-[85vh] overflow-y-auto"
-  >
-    <!-- Handle -->
+<div
+  class="
+    fixed z-50
+    bottom-0 left-0 right-0
+    md:top-1/2 md:left-1/2 md:right-auto md:bottom-auto
+    md:-translate-x-1/2 md:-translate-y-1/2
+    w-full md:w-[min(90vw,700px)]
+    max-h-[85vh]
+    overflow-y-auto
+    rounded-t-3xl md:rounded-3xl
+    bg-orange-50
+    p-5
+    pb-26 md:pb-5
+    shadow-2xl
+  "
+>
     <div class="mx-auto mb-4 h-1 w-10 rounded-full bg-stone-300"></div>
 
     <!-- Product header -->
