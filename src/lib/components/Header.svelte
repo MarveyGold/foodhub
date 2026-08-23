@@ -65,6 +65,17 @@
           </DropdownHeader>
         {/if}
         <hr />
+        {#if data.user?.role === "manager"}
+          {#if mode === "app"}
+            <DropdownItem class="md:hidden flex" href="/manage"
+              >Admin Mode</DropdownItem
+            >
+          {:else if mode === "admin"}
+            <DropdownItem class="md:hidden flex" href="/menu"
+              >Customer Mode</DropdownItem
+            >
+          {/if}
+        {/if}
         <DropdownGroup
           class="hidden z-50 md:flex flex-col w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3 backdrop-blur-3xl"
         >
@@ -116,37 +127,29 @@
             <span class="mt-1 text-[10px] uppercase tracking-tighter"
               >Order</span
             >
-          </DropdownItem>{#if data.user?.role === "manager"}
-            
-              {#if mode === "app"}
-                <DropdownItem class="md:hidden flex" href="/manage"
-                  >Admin Mode</DropdownItem
-                >
-                <DropdownItem
-                  href="/manage"
-                  class={active == "manage"
-                    ? "hidden md:flex  items-center text-amber-500"
-                    : "hidden md:flex  items-center text-stone-500"}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm0 8h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1zm10 0h6a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm0-18v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1z"
-                    />
-                  </svg>
-                  <span class="mt-1 text-[10px] tracking-tighter uppercase"
-                    >Manage</span
-                  >
-                </DropdownItem>
-              {:else if mode === "admin"}
-                <DropdownItem class="md:hidden" href="/menu">Customer Mode</DropdownItem>
-              {/if}
-           
+          </DropdownItem>
+          {#if data.user?.role === "manager" && mode === "app"}
+            <DropdownItem
+              href="/manage"
+              class={active == "manage"
+                ? "hidden md:flex  items-center text-amber-500"
+                : "hidden md:flex  items-center text-stone-500"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm0 8h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1zm10 0h6a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm0-18v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1z"
+                />
+              </svg>
+              <span class="mt-1 text-[10px] tracking-tighter uppercase"
+                >Manage</span
+              >
+            </DropdownItem>
           {/if}
         </DropdownGroup>
       </Dropdown>
