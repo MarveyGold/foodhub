@@ -12,7 +12,7 @@ const client = mongoose.connection.getClient();
 export const auth = betterAuth({
   baseURL: ORIGIN,
   secret: process.env.BETTER_AUTH_SECRET,
-  database: mongodbAdapter(client.db()),
+  database: mongodbAdapter(client.db("Hadeva_Bakes")),
   emailAndPassword: {
     enabled: true,
   },
