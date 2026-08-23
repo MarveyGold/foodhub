@@ -2,8 +2,8 @@
 	const contacts = [
 		{
 			name: 'WhatsApp',
-			handle: '+2348050257305',
-			href: 'https://wa.me/+2348050257305',
+			handle: '+234805 025 7305',
+			href: 'https://wa.me/2348050257305',
 			icon: 'whatsapp'
 		},
 		{
@@ -214,4 +214,79 @@
       </div>
     </div>
   </div>
+</section>
+<section id="contact-us" class="bg-stone-900/30 py-24">
+	<div class="mx-auto max-w-5xl px-6 text-center">
+		<h3
+			class="mb-2 text-3xl font-bold text-white"
+			style="font-family: 'Plus Jakarta Sans', sans-serif;"
+		>
+			Get in Touch
+		</h3>
+		<p class="mb-12 text-sm text-stone-500">Reach out to us on any platform</p>
+
+		<div class="grid gap-8 md:grid-cols-3">
+			{#each contacts as contact}
+				<a
+					href={contact.href}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="rounded-3xl border border-white/5 bg-stone-950/50 p-8 text-left transition-all hover:bg-[#C41E3A]/5"
+				>
+					<div
+						class="mb-4 flex h-11 w-11 items-center justify-center rounded-full"
+						style="background: rgba(245, 166, 35, 0.1);"
+					>
+						{#if contact.icon === 'whatsapp'}
+							<svg
+								width="22"
+								height="22"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="#F5A623"
+								stroke-width="1.6"
+							>
+								<path
+									d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.9 7.9 0 0 0-6.84 11.85L4 20l4.27-1.12a7.93 7.93 0 0 0 3.78.96h.01a7.9 7.9 0 0 0 7.9-7.9 7.85 7.85 0 0 0-2.36-5.62z"
+								/>
+							</svg>
+						{:else if contact.icon === 'instagram'}
+							<svg
+								width="22"
+								height="22"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="#F5A623"
+								stroke-width="1.6"
+							>
+								<rect x="3" y="3" width="18" height="18" rx="5" />
+								<circle cx="12" cy="12" r="4" />
+								<circle cx="17.5" cy="6.5" r="0.5" fill="#F5A623" />
+							</svg>
+						{:else if contact.icon === 'facebook'}
+							<svg
+								width="22"
+								height="22"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="#F5A623"
+								stroke-width="1.6"
+							>
+								<path
+									d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+								/>
+							</svg>
+						{/if}
+					</div>
+					<h4
+						class="mb-1 text-xl font-bold text-white"
+						style="font-family: 'Plus Jakarta Sans', sans-serif;"
+					>
+						{contact.name}
+					</h4>
+					<p class="text-xs leading-relaxed text-stone-500">{contact.handle}</p>
+				</a>
+			{/each}
+		</div>
+	</div>
 </section>
