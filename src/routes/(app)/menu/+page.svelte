@@ -217,7 +217,7 @@
 <!-- Menu grid -->
 <div class="p-2 pb-18 max-w-screen-xl mx-auto">
   <div
-    class="grid grid-cols-2 gap-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+    class="grid grid-cols-2 gap-1 md:grid-cols-4"
   >
     {#each data.menu as menu}
       <div
