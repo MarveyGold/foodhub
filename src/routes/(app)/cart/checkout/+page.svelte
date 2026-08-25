@@ -17,15 +17,14 @@
 {#if $cartStore.length === 0 && !form?.success}
   <p class="p-6 text-center text-surface-tint">Your cart is empty.</p>
 {:else if form?.success}
-  <div class="p-6 flex flex-col items-center gap-4 text-center">
-    <h2 class="text-xl font-bold">Order placed!</h2>
+  <div class="p-6 max-w-xl mx-auto flex flex-col items-center gap-4 text-center">    <h2 class="text-xl font-bold">Order placed!</h2>
     <p class="text-sm text-surface-tint">Tap below to confirm your order over WhatsApp.</p>
     <a
       href={form.whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       onclick={() => clearCart()}
-      class="rounded-xl bg-amber-500 text-black font-bold px-6 py-4 w-[80vw] text-center"
+      class="rounded-xl bg-amber-500 text-black font-bold px-6 py-4 w-full max-w-md text-center"
     >
       Confirm on WhatsApp
     </a>
@@ -40,8 +39,8 @@
         submitting = false;
       };
     }}
-    class="p-4 pb-24 md:pb-2 md:fixed md:bottom-2 mx-auto md:inset-x-0 flex flex-col gap-4"
-  >
+    class="p-4 pb-24 max-w-xl mx-auto flex flex-col gap-4"
+>
     <input type="hidden" name="items" value={JSON.stringify($cartStore)} />
 
     {#if form?.error}
