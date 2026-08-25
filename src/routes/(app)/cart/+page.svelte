@@ -21,7 +21,7 @@
     >
   </section>
 {:else}
-  <div class="p-4 pb-38 md:pb-49">
+  <div class="p-4 pb-38 md:pb-49 max-w-3xl mx-auto">
     <h2 class="text-2xl font-bold text-white mb-6">Your Cart</h2>
     <div class="flex flex-col gap-4">
       {#each $cartStore as item (item.id)}
@@ -68,11 +68,12 @@
       {/each}
     </div>
 
-    <div
-      class="fixed bottom-20 max-w-md mx-auto self-center
-      md:bottom-0.5 inset-x-0 w-full bg-surface border-t border-surface-container
-      p-4 flex flex-col gap-3"
-    >
+<div
+  class="fixed bottom-20 md:bottom-0 inset-x-0
+  w-full max-w-3xl mx-auto
+  bg-surface border-t border-surface-container
+  p-4 flex flex-col gap-3"
+>
       <div class="flex justify-between font-bold text-surface-tint">
         <span>Total</span>
         <span>₦{total.toLocaleString()}</span>
