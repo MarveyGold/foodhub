@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { auth } from "$lib/server/auth"
+import { auth } from "#lib/server/auth.ts";
 export async function load({ request }) {
   const { users, total } = await auth.api.listUsers({
     query: { limit: 50, offset: 0, sortBy: "createdAt", sortDirection: "desc" },
@@ -28,5 +28,4 @@ export const actions = {
 
     return { users, total, search: query };
   },
-}
-
+};

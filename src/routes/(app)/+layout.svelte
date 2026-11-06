@@ -1,7 +1,7 @@
 <script>
   import "../../app.css";
-  import Header from "$lib/components/Header.svelte";
-  import MobileNav from "$lib/components/MobileNav.svelte";
+  import Header from "#lib/components/Header.svelte";
+  import MobileNav from "#lib/components/MobileNav.svelte";
   import { page } from "$app/state";
   import { preloadData } from "$app/navigation";
 

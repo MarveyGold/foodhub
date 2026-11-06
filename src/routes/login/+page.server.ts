@@ -1,7 +1,7 @@
-import { auth } from "$lib/server/auth";
+import { auth } from "#lib/server/auth.ts";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import { dev } from "$app/environment";
+import { dev } from "$app/env";
 export const actions: Actions = {
   default: async ({ request, cookies }) => {
     const form = await request.formData();

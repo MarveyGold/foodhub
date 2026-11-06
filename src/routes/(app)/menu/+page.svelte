@@ -1,5 +1,5 @@
 <script>
-  import { addToCart } from "$lib/cart";
+  import { addToCart } from "#lib/cart.ts";
   import { Heart } from "@boxicons/svelte";
   import { preloadData } from "$app/navigation";
   import { onMount } from "svelte";

@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { createOrder } from "$lib/server/orders";
-import { WHATSAPP_NUMBER } from "$env/static/private";
+import { createOrder } from "#lib/server/orders.js";
+import { WHATSAPP_NUMBER } from "$app/env/private";
 
 export const actions = {
   checkout: async ({ request, locals }) => {

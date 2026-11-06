@@ -9,7 +9,7 @@ const orderItemSchema = new mongoose.Schema(
     quantity: { type: Number, required: true },
     imageUrl: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const orderSchema = new mongoose.Schema(
@@ -17,17 +17,33 @@ const orderSchema = new mongoose.Schema(
     userId: { type: String, required: false, index: true }, // optional, set when signed in
     customerName: { type: String, required: true },
     customerPhone: { type: String, required: true, index: true }, // always required — this is your real lookup key
-    deliveryType: { type: String, enum: ["pickup", "delivery"], required: true },
+    deliveryType: {
+      type: String,
+      enum: ["pickup", "delivery"],
+      required: true,
+    },
+    payment: {
+      method: { type: String, enum: ["cash", "bank_transfer", "pos", "card"] },
+      paidAt: { type: Date },
+    },
     address: { type: String },
     notes: { type: String },
     items: { type: [orderItemSchema], required: true },
     total: { type: Number, required: true },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "preparing", "ready", "completed", "cancelled"],
+      enum: [
+        "pending",
+        "confirmed",
+        "preparing",
+        "ready",
+        "completed",
+        "cancelled",
+      ],
       default: "pending",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-export const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
+export const Order =
+  mongoose.models.Order || mongoose.model("Order", orderSchema);

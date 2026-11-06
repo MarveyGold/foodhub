@@ -1,6 +1,15 @@
 import { Order } from "./models/order.ts";
 
-export async function createOrder({ event, userId, customerName, customerPhone, deliveryType, address, notes, items }) {
+export async function createOrder({
+  event,
+  userId,
+  customerName,
+  customerPhone,
+  deliveryType,
+  address,
+  notes,
+  items,
+}) {
   const total = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
 
   const normalizedItems = items.map((item) => ({
@@ -11,7 +20,7 @@ export async function createOrder({ event, userId, customerName, customerPhone, 
     quantity: item.quantity,
     imageUrl: item.imageUrl,
   }));
-  console.log(event)
+  console.log(event);
   const order = await Order.create({
     userId: userId || undefined,
     customerName,
@@ -24,7 +33,8 @@ export async function createOrder({ event, userId, customerName, customerPhone, 
   });
 
   return order;
-} export async function getOrdersForUser(userId) {
+}
+export async function getOrdersForUser(userId) {
   const orders = await Order.find({ userId }).sort({ createdAt: -1 }).lean();
   return orders.map((o) => ({ ...o, _id: o._id.toString() }));
 }

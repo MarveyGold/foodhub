@@ -1,5 +1,5 @@
 <script>
-  import Header from "$lib/components/Header.svelte";
+  import Header from "#lib/components/Header.svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   let { children } = $props();

@@ -1,7 +1,7 @@
-import { auth } from "$lib/server/auth";
+import { auth } from "#lib/server/auth.ts";
 import { fail } from "@sveltejs/kit";
-import { createOrder } from "$lib/server/orders";
-import { WHATSAPP_NUMBER } from "$env/static/private";
+import { createOrder } from "#lib/server/orders.js";
+import { WHATSAPP_NUMBER } from "$app/env/private";
 
 export const actions = {
   default: async ({ request }) => {
@@ -16,7 +16,9 @@ export const actions = {
     const itemsRaw = form.get("items")?.toString();
 
     if (!customerName || !customerPhone || !deliveryType) {
-      return fail(400, { error: "Please fill in your name, phone, and delivery method." });
+      return fail(400, {
+        error: "Please fill in your name, phone, and delivery method.",
+      });
     }
     if (deliveryType === "delivery" && !address) {
       return fail(400, { error: "Address is required for delivery." });
@@ -27,7 +29,9 @@ export const actions = {
       items = JSON.parse(itemsRaw);
       if (!Array.isArray(items) || items.length === 0) throw new Error();
     } catch {
-      return fail(400, { error: "Your cart looks empty. Please add items first." });
+      return fail(400, {
+        error: "Your cart looks empty. Please add items first.",
+      });
     }
 
     const order = await createOrder({
@@ -38,8 +42,10 @@ export const actions = {
       address,
       notes,
       items,
-    }); const lines = items.map(
-      (i) => `- ${i.name}${i.flavour ? ` (${i.flavour})` : ""} x${i.quantity} — ₦${(i.cost * i.quantity).toLocaleString()}`
+    });
+    const lines = items.map(
+      (i) =>
+        `- ${i.name}${i.flavour ? ` (${i.flavour})` : ""} x${i.quantity} — ₦${(i.cost * i.quantity).toLocaleString()}`,
     );
     const total = items.reduce((sum, i) => sum + i.cost, 0);
 

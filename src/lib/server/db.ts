@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { MONGODB_URI } from "$env/static/private";
+import { MONGODB_URI } from "$app/env/private";
 import { resolve } from "dns";
-import { dev } from "$app/environment"
+import { dev } from "$app/env";
 export async function connectDB() {
   if (mongoose.connection.readyState == 1) return;
   if (mongoose.connection.readyState == 2) {

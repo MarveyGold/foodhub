@@ -1,6 +1,6 @@
 import { error, fail } from "@sveltejs/kit";
-import { auth } from "$lib/server/auth";
-import { requirePermission } from "$lib/server/permissions";
+import { auth } from "#lib/server/auth.ts";
+import { requirePermission } from "#lib/server/permissions.ts";
 
 export async function load({ params, request }) {
   await requirePermission(request.headers, { user: ["get"] });

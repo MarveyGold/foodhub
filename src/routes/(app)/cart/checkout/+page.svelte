@@ -1,6 +1,6 @@
 <script>
   import { enhance } from "$app/forms";
-  import { cartStore, clearCart } from "$lib/cart";
+  import { cartStore, clearCart } from "#lib/cart.ts";
 
   let { form, data } = $props();
   

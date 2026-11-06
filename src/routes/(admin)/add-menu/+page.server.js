@@ -1,9 +1,9 @@
 import {
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_UPLOAD_PRESET,
-} from "$env/static/private";
-import { addProduct } from "$lib/server/products.js";
-import { requirePermission } from "$lib/server/permissions";
+} from "$app/env/private";
+import { addProduct } from "#lib/server/products.js";
+import { requirePermission } from "#lib/server/permissions.ts";
 
 export const actions = {
   default: async ({ request }) => {
@@ -27,7 +27,10 @@ export const actions = {
 
     if (!res.ok) {
       const errorBody = await res.json();
-      return { success: false, error: errorBody.error?.message || "Upload failed" };
+      return {
+        success: false,
+        error: errorBody.error?.message || "Upload failed",
+      };
     }
 
     const { secure_url } = await res.json();

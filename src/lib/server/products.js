@@ -1,5 +1,5 @@
-import { connectDB } from "$lib/server/db";
-import { Menu } from "$lib/server/models/Menu";
+import { connectDB } from "#lib/server/db.ts";
+import { Menu } from "#lib/server/models/Menu.ts";
 
 await connectDB();
 

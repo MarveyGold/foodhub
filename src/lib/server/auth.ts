@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import mongoose from "mongoose";
 import { connectDB } from "./db";
-import { ORIGIN } from "$env/static/private";
+import { ORIGIN } from "$app/env/private";
 import { username, admin } from "better-auth/plugins";
 import { ac, manager, staff, customer } from "./access-control";
 
@@ -23,7 +23,7 @@ export const auth = betterAuth({
       adminRoles: ["manager"],
       ac,
       roles: { manager, staff, customer },
-    })
+    }),
   ],
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days

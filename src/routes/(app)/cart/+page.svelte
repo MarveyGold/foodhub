@@ -1,5 +1,5 @@
 <script>
-  import { cartStore, syncCart, removeItem } from "$lib/cart";
+  import { cartStore, syncCart, removeItem } from "#lib/cart.ts";
   $effect(() => syncCart());
 
   let total = $derived($cartStore.reduce((sum, i) => sum + i.cost, 0));

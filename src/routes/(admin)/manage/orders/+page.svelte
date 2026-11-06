@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
 
   let { data, form } = $props();
-let start = $state(data.startDate ?? "");
+  let start = $state(data.startDate ?? "");
   let end = $state(data.endDate ?? "");
   let toast = $state(false);
   $effect(() => {
@@ -22,19 +22,33 @@ let start = $state(data.startDate ?? "");
 
 <main class="mx-auto max-w-lg p-4 pb-24">
   <form method="GET" class="flex gap-2 items-end mb-6">
-  <div>
-    <label class="block text-xs text-gray-500 mb-1" for="start">From</label>
-    <input id="start" type="date" name="start" bind:value={start} class="border rounded px-3 py-2 text-sm" />
-  </div>
-  <div>
-    <label class="block text-xs text-gray-500 mb-1" for="end">To</label>
-    <input id="end" type="date" name="end" bind:value={end} class="border rounded px-3 py-2 text-sm" />
-  </div>
-  <button type="submit" class="px-4 py-2 rounded bg-black text-white text-sm">Filter</button>
-  {#if data.startDate || data.endDate}
-    <a href="?" class="px-4 py-2 rounded border text-sm">Clear</a>
-  {/if}
-</form>
+    <div>
+      <label class="block text-xs text-gray-500 mb-1" for="start">From</label>
+      <input
+        id="start"
+        type="date"
+        name="start"
+        bind:value={start}
+        class="border rounded px-3 py-2 text-sm"
+      />
+    </div>
+    <div>
+      <label class="block text-xs text-gray-500 mb-1" for="end">To</label>
+      <input
+        id="end"
+        type="date"
+        name="end"
+        bind:value={end}
+        class="border rounded px-3 py-2 text-sm"
+      />
+    </div>
+    <button type="submit" class="px-4 py-2 rounded bg-black text-white text-sm"
+      >Filter</button
+    >
+    {#if data.startDate || data.endDate}
+      <a href="?" class="px-4 py-2 rounded border text-sm">Clear</a>
+    {/if}
+  </form>
   <h2 class="mb-2 text-2xl font-bold text-(--color-on-background)">Orders</h2>
   <p class="mb-6 text-sm text-on-background">{data.orders.length} total</p>
 
@@ -46,7 +60,9 @@ let start = $state(data.startDate ?? "");
             <span class="text-sm font-bold text-primary">
               #{order._id.slice(-6).toUpperCase()}
             </span>
-            <p class="text-xs text-surface-tint">{order.customerName} · {order.customerPhone}</p>
+            <p class="text-xs text-surface-tint">
+              {order.customerName} · {order.customerPhone}
+            </p>
           </div>
           <span
             class={`rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${statusColor(order.status)}`}
@@ -58,14 +74,27 @@ let start = $state(data.startDate ?? "");
         <div class="flex flex-col gap-1">
           {#each order.items as item}
             <p class="text-xs text-surface-tint">
-              {item.quantity}x {item.name}{item.flavour ? ` (${item.flavour})` : ""} — ₦{item.cost.toLocaleString()}
+              {item.quantity}x {item.name}{item.flavour
+                ? ` (${item.flavour})`
+                : ""} — ₦{item.cost.toLocaleString()}
             </p>
           {/each}
         </div>
 
-        <div class="mt-3 flex items-center justify-between border-t border-surface-container pt-3">
-          <span class="text-sm font-bold text-amber-500">₦{order.total.toLocaleString()}</span>
-
+        <div
+          class="mt-3 flex items-center justify-between border-t border-surface-container pt-3"
+        >
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-bold text-amber-500"
+              >₦{order.total.toLocaleString()}</span
+            >
+            <a
+              href="/manage/orders/{order._id}/receipt"
+              class="text-xs font-semibold text-primary underline"
+            >
+              Receipt
+            </a>
+          </div>
           <form method="POST" action="?/updateStatus" use:enhance>
             <input type="hidden" name="_id" value={order._id} />
             <select

@@ -1,8 +1,15 @@
 import { fail, error } from "@sveltejs/kit";
-import { getAllOrders, updateOrderStatus } from "$lib/server/orders";
-import { requirePermission } from "$lib/server/permissions";
+import { getAllOrders, updateOrderStatus } from "#lib/server/orders.js";
+import { requirePermission } from "#lib/server/permissions.ts";
 
-const STATUSES = ["pending", "confirmed", "preparing", "ready", "completed", "cancelled"];
+const STATUSES = [
+  "pending",
+  "confirmed",
+  "preparing",
+  "ready",
+  "completed",
+  "cancelled",
+];
 
 export async function load({ request, url }) {
   await requirePermission(request.headers, { order: ["view"] });
