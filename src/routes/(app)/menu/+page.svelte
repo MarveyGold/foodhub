@@ -36,11 +36,6 @@
   let toast = $state(false);
   const price = $derived((item?.price ?? 0) * quantity);
 
-  onMount(() => {
-    preloadData("/menu?category=snacks");
-    preloadData("/menu?category=cakes");
-  });
-
   const go = (url) => goto(url, { noScroll: true, keepFocus: true });
 
   function open(menu) {
