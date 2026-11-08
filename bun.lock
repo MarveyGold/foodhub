@@ -18,6 +18,7 @@
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-svelte": "^3.23.0",
         "globals": "^17.11.0",
+        "konsta": "^5.5.0",
         "mongodb": "^6.12.0",
         "mongoose": "^9.9.3",
         "postcss": "^8.5.26",
@@ -453,6 +454,8 @@
     "keyv": ["keyv@4.5.4", "", { "dependencies": { "json-buffer": "3.0.1" } }, "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw=="],
 
     "known-css-properties": ["known-css-properties@0.37.0", "", {}, "sha512-JCDrsP4Z1Sb9JwG0aJ8Eo2r7k4Ou5MwmThS/6lcIe1ICyb7UBJKGRIUUdqc2ASdE/42lgz6zFUnzAIhtXnBVrQ=="],
+
+    "konsta": ["konsta@5.5.0", "", { "dependencies": { "tailwind-merge": "^3.3.1" } }, "sha512-YMhVJeDLgGZS+34eeiiRD0Xc8zoKRyvgStYbFBUYBWGhafB9U5Q8Q9JYTZF17oe7N6znE1zAuQypLCJ5moFa6Q=="],
 
     "kysely": ["kysely@0.29.5", "", {}, "sha512-ooa+eSbBNPTo3MycPEuW5jdrxQdQwdtB3LC3h43FiXQbIry5tR0C5lDG7eealK0E4D7XjrnOP5DIUg/LyjRMYQ=="],
 

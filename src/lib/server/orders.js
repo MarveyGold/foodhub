@@ -10,8 +10,8 @@ export async function createOrder({
   notes,
   items,
 }) {
-  const total = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
 
+  const total = items.reduce((sum, item) => sum + item.cost, 0);
   const normalizedItems = items.map((item) => ({
     productId: item.id, // map cart's `id` → schema's `productId`
     name: item.name,
