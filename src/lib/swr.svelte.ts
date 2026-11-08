@@ -1,21 +1,30 @@
 import { browser } from "$app/environment";
 
 export function createSwr<T>(fetcher: () => PromiseLike<T>) {
-  let value = $state<T | null>(null);
+  // raw: no deep proxying, so identity only changes when we assign
+  let value = $state.raw<T | null>(null);
+  let snapshot = "";
   let inflight: Promise<T> | null = null;
 
   const fetchFresh = () =>
     (inflight ??= Promise.resolve(fetcher())
-      .then((v) => (value = v) as T)
+      .then((v) => {
+        const next = JSON.stringify(v);
+        // identical data: keep the same object, so nothing re-renders
+        if (next !== snapshot) {
+          snapshot = next;
+          value = v;
+        }
+        return value as T;
+      })
       .finally(() => (inflight = null)));
 
   return {
     get value() {
       return value;
     },
-    /** Instant when cached; always revalidates in the background. */
+    /** Instant when cached; revalidates in the background. */
     async load(): Promise<T> {
-      // never keep (per-user) data in server memory
       if (!browser) return fetcher() as Promise<T>;
       if (value !== null) {
         fetchFresh().catch(() => {});
@@ -25,6 +34,7 @@ export function createSwr<T>(fetcher: () => PromiseLike<T>) {
     },
     clear() {
       value = null;
+      snapshot = "";
     },
   };
 }
