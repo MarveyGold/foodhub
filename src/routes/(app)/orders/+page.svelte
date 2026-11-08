@@ -1,5 +1,7 @@
 <script>
+  import { ordersCache } from "#lib/cache.svelte.ts";
   let { data } = $props();
+  const orders = $derived(ordersCache.value ?? data.orders);
 
   function statusColor(status) {
     if (status === "completed") return "bg-green-500/10 text-green-400";
@@ -12,7 +14,7 @@
 <div class="p-4 pb-24">
   <h2 class="mb-6 text-2xl font-bold text-white">Your Orders</h2>
 
-  {#if data.orders.length === 0}
+  {#if orders.length === 0}
     <div class="py-20 text-center text-surface-tint">
       <h3 class="mb-2 text-lg font-bold text-primary">No orders yet</h3>
       <p class="text-sm">Your placed orders will show up here.</p>
@@ -20,7 +22,7 @@
     </div>
   {:else}
     <div class="flex flex-col gap-4">
-      {#each data.orders as order}
+      {#each orders as order}
         <div class="rounded-2xl border border-surface-container bg-surface p-4">
           <div class="mb-2 flex items-center justify-between">
             <span class="text-sm font-bold text-primary">
