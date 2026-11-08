@@ -17,6 +17,9 @@
   import { page } from "$app/state";
   import { preloadData } from "$app/navigation";
   import { cartStore } from "#lib/cart.ts";
+import { untrack } from "svelte";
+import { menuCache, ordersCache } from "#lib/cache.svelte.ts";
+
 
   let { children } = $props();
 
@@ -31,17 +34,16 @@
     popoverOpened = true;
   };
   const closePopover = () => (popoverOpened = false);
-
+$effect(() => {
+  const signedIn = !!user;
+  // untrack: load() reads cache state and would otherwise re-trigger this effect
+  untrack(() => {
+    menuCache.load();
+    if (signedIn) ordersCache.load();
+  });
+});
   const navClass = (active) =>
     `px-3 py-2 text-sm font-semibold uppercase tracking-tight ${active ? "text-amber-500" : "text-stone-500"}`;
-
-  $effect(() => {
-    if (typeof window === "undefined") return;
-    (async () => {
-      await preloadData("/menu");
-      preloadData("/orders");
-    })();
-  });
 </script>
 
 <App theme="ios" safeAreas>
