@@ -90,7 +90,7 @@
 </Block>
 
 <div class="mx-auto grid max-w-screen-xl grid-cols-2 gap-2 px-2 md:grid-cols-4">
-  {#each data.menu as menu}
+  {#each data.menu as menu (menu._id)}
     <div
       role="button"
       tabindex="0"
