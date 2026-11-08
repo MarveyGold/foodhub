@@ -1,6 +1,6 @@
 import { query, getRequestEvent } from "$app/server";
 import { getCachedProducts } from "#lib/server/products";
-import { getOrdersForUser } from "#lib/server/orders;
+import { getOrdersForUser } from "#lib/server/orders";
 
 export const getMenu = query(async () => getCachedProducts(null));
 
