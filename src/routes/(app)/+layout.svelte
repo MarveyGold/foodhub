@@ -48,24 +48,17 @@ $effect(() => {
 
 <App theme="ios" safeAreas>
   <Page class="pb-safe-24 md:pb-6!">
-    <Navbar>
-      {#snippet left()}
-        {#if path === "/cart/checkout"}
-          <NavbarBackLink onclick={() => history.back()} />
-        {/if}
-{/snippet}
+    <Navbar title={path === "/cart/checkout" ? "Checkout" : undefined}>
 {#snippet left()}
-        <a href="/menu" class="flex items-center gap-2">
-          <img
-            src="/images/logo.png"
-            alt="Hadeva Bakes logo"
-            class="size-8 object-contain"
-          />
-          <span class="text-lg font-extrabold tracking-tight text-primary"
-            >Hadeva Bakes</span
-          >
-        </a>
-      {/snippet}
+    {#if path === "/cart/checkout"}
+      <NavbarBackLink onclick={() => history.back()} />
+    {:else}
+      <a href="/menu" class="flex items-center gap-2">
+        <img src="/images/logo.png" alt="Hadeva Bakes logo" class="size-8 object-contain" />
+        <span class="text-lg font-extrabold tracking-tight text-primary">Hadeva Bakes</span>
+      </a>
+    {/if}
+  {/snippet}
 
       {#snippet right()}
         <!-- desktop nav (the tabbar is hidden at md and up) -->
