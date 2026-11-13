@@ -53,6 +53,8 @@ $effect(() => {
         {#if path === "/cart/checkout"}
           <NavbarBackLink onclick={() => history.back()} />
         {/if}
+{/snippet}
+{#snippet left()}
         <a href="/menu" class="flex items-center gap-2">
           <img
             src="/images/logo.png"
