@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
 
   let { data, form } = $props();
@@ -12,7 +12,7 @@
     }
   });
 
-  function statusColor(status) {
+  function statusColor(status: (typeof data.statuses)[number]) {
     if (status === "completed") return "bg-green-500/10 text-green-400";
     if (status === "cancelled") return "bg-red-500/10 text-red-400";
     if (status === "pending") return "bg-stone-500/10 text-stone-400";
@@ -100,7 +100,7 @@
             <select
               name="status"
               value={order.status}
-              onchange={(e) => e.target.form.requestSubmit()}
+              onchange={(e) => e.target.form?.requestSubmit()}
               class="rounded-lg border border-surface-container bg-surface px-2 py-1 text-xs text-primary focus:outline-none"
             >
               {#each data.statuses as status}

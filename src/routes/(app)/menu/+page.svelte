@@ -1,8 +1,7 @@
-<script>
-  import { addToCart } from "#lib/cart.ts";
+<script lang="ts">
+  import { addToCart, type CartItem } from "#lib/cart.ts";
   import { Heart } from "@boxicons/svelte";
-  import { goto, preloadData } from "$app/navigation";
-  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
   import {
     Segmented,
     SegmentedButton,
@@ -14,10 +13,11 @@
     Stepper,
     Toast,
   } from "konsta/svelte";
+  import type { PageProps } from "./$types";
 
-  let { data } = $props();
+  type MenuItem = PageProps["data"]["menu"][number];
 
-  const categories = ["cakes", "snacks"];
+  const categories = ["cakes", "snacks"] as const;
   const flavours = [
     "Vanilla",
     "Chocolate",
@@ -27,32 +27,62 @@
     "Cookies & Cream",
     "Strawberry",
     "Banana",
-  ];
+  ] as const;
+  type Flavour = (typeof flavours)[number];
 
-  let item = $state(null);
+  let { data }: PageProps = $props();
+
+  let item = $state<MenuItem | null>(null);
   let sheetOpen = $state(false);
-  let flavour = $state("Vanilla");
+  let flavour = $state<Flavour>("Vanilla");
   let quantity = $state(1);
   let toast = $state(false);
+
   const price = $derived((item?.price ?? 0) * quantity);
 
-  const go = (url) => goto(url, { noScroll: true, keepFocus: true });
+  // Per-card flavour overrides: menuId -> flavour
+  let cardFlavours = $state<Record<string, Flavour>>({});
 
-  function open(menu) {
+  const go = (url: string) => goto(url, { noScroll: true, keepFocus: true });
+
+  function open(menu: MenuItem) {
     item = menu;
     quantity = 1;
+    // If the user already picked a flavour on the card, carry it in.
+    if (menu.category === "cake" && cardFlavours[menu._id]) {
+      flavour = cardFlavours[menu._id];
+    }
     sheetOpen = true;
   }
 
   function add() {
+    if (!item) return;
     addToCart({
       ...item,
       id: crypto.randomUUID(),
       quantity,
-      cost: price, // line total, same as before
+      cost: price, // line total
       ...(item.category === "cake" && { flavour }),
     });
     sheetOpen = false;
+    toast = true;
+    setTimeout(() => (toast = false), 2500);
+  }
+
+  // Quick-add straight from the card (uses the card's flavour, or default)
+  function quickAdd(menu: MenuItem, e: MouseEvent) {
+    e.stopPropagation(); // don't open the sheet
+    const chosen =
+      menu.category === "cake"
+        ? (cardFlavours[menu._id] ?? "Vanilla")
+        : undefined;
+    addToCart({
+      ...menu,
+      id: crypto.randomUUID(),
+      quantity: 1,
+      cost: menu.price,
+      ...(chosen && { flavour: chosen }),
+    });
     toast = true;
     setTimeout(() => (toast = false), 2500);
   }
@@ -157,15 +187,18 @@
         </div>
       </div>
 
-      {#if item.category === "cake"}
-        <p class="text-xs font-semibold uppercase tracking-wider opacity-60">
-          Flavour
-        </p>
-        <div class="flex flex-wrap gap-2">
+      {#if menu.category === "cake"}
+        <div
+          class="mt-2 flex flex-wrap gap-1"
+          onclick={(e) => e.stopPropagation()}
+        >
           {#each flavours as f}
-            <Chip outline={f !== flavour} onclick={() => (flavour = f)}
-              >{f}</Chip
+            <Chip
+              outline={cardFlavours[menu._id] !== f}
+              onClick={() => (cardFlavours[menu._id] = f)}
             >
+              {f}
+            </Chip>
           {/each}
         </div>
       {/if}

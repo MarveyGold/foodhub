@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import "../../app.css";
   import {
     App,
@@ -17,32 +17,35 @@
   import { page } from "$app/state";
   import { preloadData } from "$app/navigation";
   import { cartStore } from "#lib/cart.ts";
-import { untrack } from "svelte";
-import { menuCache, ordersCache } from "#lib/cache.svelte.ts";
+  import { untrack } from "svelte";
+  import { menuCache, ordersCache } from "#lib/cache.svelte.ts";
+  import type { LayoutProps } from "./$types";
 
-
-  let { children } = $props();
+  let { children }: LayoutProps = $props();
 
   const path = $derived(page.url.pathname);
   const count = $derived($cartStore.length);
   const user = $derived(page.data.user);
 
   let popoverOpened = $state(false);
-  let popoverTarget = $state(null);
-  const openPopover = (target) => {
+  let popoverTarget = $state<string | HTMLElement | null>(null);
+
+  const openPopover = (target: string | HTMLElement) => {
     popoverTarget = target;
     popoverOpened = true;
   };
   const closePopover = () => (popoverOpened = false);
-$effect(() => {
-  const signedIn = !!user;
-  // untrack: load() reads cache state and would otherwise re-trigger this effect
-  untrack(() => {
-    menuCache.load();
-    if (signedIn) ordersCache.load();
+
+  $effect(() => {
+    const signedIn = !!user;
+    // untrack: load() reads cache state and would otherwise re-trigger this effect
+    untrack(() => {
+      menuCache.load();
+      if (signedIn) ordersCache.load();
+    });
   });
-});
-  const navClass = (active) =>
+
+  const navClass = (active: boolean) =>
     `px-3 py-2 text-sm font-semibold uppercase tracking-tight ${active ? "text-amber-500" : "text-stone-500"}`;
 </script>
 

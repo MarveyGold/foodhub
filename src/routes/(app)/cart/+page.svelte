@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { cartStore, syncCart, removeItem } from "#lib/cart.ts";
   $effect(() => syncCart());
 

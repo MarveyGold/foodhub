@@ -1,10 +1,17 @@
 import { auth } from "#lib/server/auth.ts";
-import { fail } from "@sveltejs/kit";
+import { fail, type Actions } from "@sveltejs/kit";
 import { createOrder } from "#lib/server/orders.js";
 import { WHATSAPP_NUMBER } from "$app/env/private";
 
+type OrderItem = {
+  name: string;
+  flavour?: string;
+  quantity: number;
+  cost: number;
+};
+
 export const actions = {
-  default: async ({ request }) => {
+  default: async ({ request, locals }) => {
     const session = await auth.api.getSession({ headers: request.headers });
 
     const form = await request.formData();
@@ -24,9 +31,9 @@ export const actions = {
       return fail(400, { error: "Address is required for delivery." });
     }
 
-    let items;
+    let items: OrderItem[];
     try {
-      items = JSON.parse(itemsRaw);
+      items = JSON.parse(itemsRaw ?? "");
       if (!Array.isArray(items) || items.length === 0) throw new Error();
     } catch {
       return fail(400, {
@@ -35,7 +42,7 @@ export const actions = {
     }
 
     const order = await createOrder({
-      userId: session?.user?.id, // undefined if guest — fine now that it's optional
+      userId: session?.user?.id,
       customerName,
       customerPhone,
       deliveryType,
@@ -43,6 +50,7 @@ export const actions = {
       notes,
       items,
     });
+
     const lines = items.map(
       (i) =>
         `- ${i.name}${i.flavour ? ` (${i.flavour})` : ""} x${i.quantity} — ₦${(i.cost * i.quantity).toLocaleString()}`,
@@ -59,11 +67,11 @@ export const actions = {
       `Delivery: ${deliveryType}${deliveryType === "delivery" ? ` — ${address}` : ""}`,
       notes ? `Notes: ${notes}` : null,
     ]
-      .filter(Boolean)
+      .filter((line): line is string => line !== null)
       .join("\n");
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
     return { success: true, whatsappUrl, orderId: order._id.toString() };
   },
-};
+} satisfies Actions;

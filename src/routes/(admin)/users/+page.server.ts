@@ -1,12 +1,15 @@
-import { error } from "@sveltejs/kit";
+import { error, type Actions } from "@sveltejs/kit";
 import { auth } from "#lib/server/auth.ts";
-export async function load({ request }) {
+import type { PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = async ({ request }) => {
   const { users, total } = await auth.api.listUsers({
     query: { limit: 50, offset: 0, sortBy: "createdAt", sortDirection: "desc" },
     headers: request.headers, // needs the admin's session cookie
   });
   return { users, total };
-}
+};
+
 export const actions = {
   searchUser: async ({ request, locals }) => {
     if (locals.user?.role !== "manager") {
@@ -28,4 +31,4 @@ export const actions = {
 
     return { users, total, search: query };
   },
-};
+} satisfies Actions;

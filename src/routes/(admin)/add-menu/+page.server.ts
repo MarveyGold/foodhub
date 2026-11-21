@@ -1,9 +1,18 @@
+import type { Actions } from "./$types";
 import {
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_UPLOAD_PRESET,
 } from "$app/env/private";
 import { addProduct } from "#lib/server/products.js";
 import { requirePermission } from "#lib/server/permissions.ts";
+
+interface CloudinaryUploadResponse {
+  secure_url?: string;
+}
+
+interface CloudinaryErrorResponse {
+  error?: { message?: string };
+}
 
 export const actions = {
   default: async ({ request }) => {
@@ -13,6 +22,13 @@ export const actions = {
 
     const name = data.get("name");
     const image = data.get("image");
+
+    if (typeof name !== "string" || !name.trim()) {
+      return { success: false, error: "Product name is required" };
+    }
+    if (!(image instanceof File) || image.size === 0) {
+      return { success: false, error: "Product image is required" };
+    }
 
     // Upload to Cloudinary
     const cf = new FormData();
@@ -26,21 +42,21 @@ export const actions = {
     );
 
     if (!res.ok) {
-      const errorBody = await res.json();
+      const errorBody: CloudinaryErrorResponse = await res.json();
       return {
         success: false,
         error: errorBody.error?.message || "Upload failed",
       };
     }
 
-    const { secure_url } = await res.json();
+    const { secure_url }: CloudinaryUploadResponse = await res.json();
 
     if (!secure_url) {
       return { success: false, error: "No URL returned from Cloudinary" };
     }
 
-    const product = await addProduct({ data, imageUrl: secure_url });
+    await addProduct({ data, imageUrl: secure_url });
 
     return { success: true };
   },
-};
+} satisfies Actions;

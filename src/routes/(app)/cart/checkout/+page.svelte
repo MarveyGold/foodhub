@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
   import { cartStore, clearCart } from "#lib/cart.ts";
+  import type { PageProps } from "./$types";
 
-  let { form, data } = $props();
-  
-  let customerName = $state(data.user?.name);
-  let customerPhone = $state(data.user?.username);
-  let deliveryType = $state("pickup");
+  let { form, data }: PageProps = $props();
+
+  let customerName = $state(data.user?.name ?? "");
+  let customerPhone = $state(data.user?.username ?? "");
+  let deliveryType = $state<"pickup" | "delivery">("pickup");
   let address = $state("");
   let notes = $state("");
   let submitting = $state(false);

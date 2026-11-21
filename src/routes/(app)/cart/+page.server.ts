@@ -1,6 +1,14 @@
-import { fail, redirect } from "@sveltejs/kit";
+import { fail, redirect, type Actions } from "@sveltejs/kit";
 import { createOrder } from "#lib/server/orders.js";
 import { WHATSAPP_NUMBER } from "$app/env/private";
+
+type CartItem = {
+  name: string;
+  imageUrl?: string;
+  flavour?: string;
+  quantity: number;
+  cost: number;
+};
 
 export const actions = {
   checkout: async ({ request, locals }) => {
@@ -9,9 +17,9 @@ export const actions = {
     const form = await request.formData();
     const raw = form.get("items");
 
-    let items;
+    let items: CartItem[];
     try {
-      items = JSON.parse(raw);
+      items = JSON.parse(raw?.toString() ?? "");
     } catch {
       return fail(400, { error: "Invalid cart data" });
     }
@@ -50,4 +58,4 @@ export const actions = {
 
     return { success: true, orderId: order._id, whatsappUrl };
   },
-};
+} satisfies Actions;

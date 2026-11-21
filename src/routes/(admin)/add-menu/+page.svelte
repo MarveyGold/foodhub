@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
+  import type { SubmitFunction } from "@sveltejs/kit";
 
   let name = $state("");
   let category = $state("");
@@ -9,13 +10,13 @@
   let hasPreview = $state(false);
   let cropping = $state(false);
 
-  let fileInput = $state(null);
-  let croppedBlob = $state(null);
+  let fileInput = $state<HTMLInputElement | null>(null);
+  let croppedBlob = $state<Blob | null>(null);
   let croppedPreview = $state("");
-  let canvas = $state(null);
+  let canvas = $state<HTMLCanvasElement | null>(null);
 
   // Pan/zoom state
-  let img;
+  let img: HTMLImageElement;
   let scale = $state(1);
   let offsetX = $state(0);
   let offsetY = $state(0);
@@ -26,8 +27,10 @@
 
   const SIZE = 400; // crop box size
 
-  function handleImage(event) {
-    const file = event.target.files[0];
+  function handleImage(
+    event: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ) {
+    const file = event.currentTarget.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
     img = new Image();
@@ -44,13 +47,14 @@
   function drawCanvas() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     ctx.clearRect(0, 0, SIZE, SIZE);
     ctx.drawImage(img, offsetX, offsetY, img.width * scale, img.height * scale);
     if (cropping) requestAnimationFrame(drawCanvas);
   }
 
   // Touch events for mobile
-  function onTouchStart(e) {
+  function onTouchStart(e: TouchEvent) {
     if (e.touches.length === 1) {
       dragging = true;
       lastX = e.touches[0].clientX;
@@ -63,7 +67,7 @@
     }
   }
 
-  function onTouchMove(e) {
+  function onTouchMove(e: TouchEvent) {
     e.preventDefault();
     if (e.touches.length === 1 && dragging) {
       const dx = e.touches[0].clientX - lastX;
@@ -88,13 +92,13 @@
   }
 
   // Mouse events for desktop
-  function onMouseDown(e) {
+  function onMouseDown(e: MouseEvent) {
     dragging = true;
     lastX = e.clientX;
     lastY = e.clientY;
   }
 
-  function onMouseMove(e) {
+  function onMouseMove(e: MouseEvent) {
     if (!dragging) return;
     offsetX += e.clientX - lastX;
     offsetY += e.clientY - lastY;
@@ -106,7 +110,7 @@
     dragging = false;
   }
 
-  function onWheel(e) {
+  function onWheel(e: WheelEvent) {
     e.preventDefault();
     scale *= e.deltaY < 0 ? 1.1 : 0.9;
   }
@@ -114,6 +118,7 @@
   function confirmCrop() {
     if (!canvas) return;
     canvas.toBlob((blob) => {
+      if (!blob) return;
       croppedBlob = blob;
       croppedPreview = URL.createObjectURL(blob);
       hasPreview = true;
@@ -126,17 +131,15 @@
     hasPreview = false;
     croppedPreview = "";
     croppedBlob = null;
-    fileInput.value = "";
+    if (fileInput) fileInput.value = "";
   }
 
-  function handleEnhance() {
-    return async ({ formData }) => {
-      if (croppedBlob) {
-        formData.delete("image");
-        formData.append("image", croppedBlob, `${name || "image"}.png`);
-      }
-    };
-  }
+  const handleEnhance: SubmitFunction = ({ formData }) => {
+    if (croppedBlob) {
+      formData.delete("image");
+      formData.append("image", croppedBlob, `${name || "image"}.png`);
+    }
+  };
 
   function handleCancel() {
     history.back();
@@ -198,8 +201,10 @@
           class="upload-zone"
           class:has-preview={hasPreview}
           aria-label="Upload dish photo"
-          onclick={() => fileInput.click()}
-        >
+          onclick={(e) => {
+  e.stopPropagation();
+  fileInput?.click();
+}}        >
           <input
             bind:this={fileInput}
             type="file"
@@ -214,7 +219,7 @@
               type="button"
               onclick={(e) => {
                 e.stopPropagation();
-                fileInput.click();
+                fileInput?.click();
               }}
               class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
             >

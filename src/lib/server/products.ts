@@ -3,15 +3,17 @@ import { Menu } from "#lib/server/models/Menu.ts";
 
 await connectDB();
 
-const cache = new Map();
+type ProductList = Awaited<ReturnType<typeof getProducts>>;
+
+const cache = new Map<string, { data: ProductList; time: number }>();
 const TTL = 1_800_000_000; // deliberate ~20-day TTL
 
-export async function getProducts(category) {
+export async function getProducts(category?: string) {
   const menu = await Menu.find(category ? { category } : {}).lean();
   return menu.map((item) => ({ ...item, _id: item._id.toString() }));
 }
 
-export async function getCachedProducts(category) {
+export async function getCachedProducts(category?: string) {
   const key = category ?? "all";
   const cached = cache.get(key);
 
@@ -28,7 +30,13 @@ export function invalidateProductCache() {
   cache.clear();
 }
 
-export async function addProduct({ data, imageUrl }) {
+export async function addProduct({
+  data,
+  imageUrl,
+}: {
+  data: FormData;
+  imageUrl: string;
+}) {
   const product = await Menu.create({
     name: data.get("name"),
     category: data.get("category"),
@@ -44,7 +52,7 @@ export async function addProduct({ data, imageUrl }) {
   return product;
 }
 
-export async function deleteProduct(_id) {
+export async function deleteProduct(_id: string) {
   const result = await Menu.findByIdAndDelete(_id);
   invalidateProductCache();
   return result;

@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
   import Header from "#lib/components/Header.svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  let { children } = $props();
+  import type { Snippet } from "svelte";
+
+  let { children }: { children: Snippet } = $props();
   let active = $derived(page.url.pathname.split("/")[1]);
 </script>
 
@@ -11,7 +13,8 @@
 <nav
   class="fixed bottom-0 left-0 z-50 flex md:hidden w-full items-center justify-around border-t border-white/5 bg-background px-6 py-3"
 >
-  <a href="/manage"
+  <a
+    href="/manage"
     class={active == "manage"
       ? "flex flex-col items-center text-amber-500"
       : "flex flex-col items-center text-stone-500"}
