@@ -1,7 +1,7 @@
 <script lang="ts">
   import { cartStore, syncCart, removeItem } from "#lib/cart";
   $effect(() => syncCart());
-
+  console.log($cartStore);
   let total = $derived($cartStore.reduce((sum, i) => sum + i.cost, 0));
 </script>
 
@@ -68,12 +68,12 @@
       {/each}
     </div>
 
-<div
-  class="fixed bottom-20 md:bottom-0 inset-x-0
+    <div
+      class="fixed bottom-20 md:bottom-0 inset-x-0
   w-full max-w-3xl mx-auto
   bg-surface border-t border-surface-container
   p-4 flex flex-col gap-3"
->
+    >
       <div class="flex justify-between font-bold text-surface-tint">
         <span>Total</span>
         <span>₦{total.toLocaleString()}</span>

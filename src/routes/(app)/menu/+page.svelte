@@ -62,7 +62,7 @@
       id: crypto.randomUUID(),
       quantity,
       cost: price, // line total
-      ...(item.category === "cake" && { flavour }),
+      ...(item.category === "cakes" && { flavour }),
     });
     sheetOpen = false;
     toast = true;
@@ -195,7 +195,8 @@
           {#each flavours as f}
             <Chip
               outline={cardFlavours[item._id] !== f}
-              onClick={() => (cardFlavours[item._id] = f)}
+              class={flavour == f ? "bg-primary" : ""}
+              onClick={() => (flavour = f)}
             >
               {f}
             </Chip>
