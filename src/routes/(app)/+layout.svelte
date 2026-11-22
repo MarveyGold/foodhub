@@ -16,9 +16,9 @@
   } from "konsta/svelte";
   import { page } from "$app/state";
   import { preloadData } from "$app/navigation";
-  import { cartStore } from "#lib/cart.ts";
+  import { cartStore } from "#lib/cart";
   import { untrack } from "svelte";
-  import { menuCache, ordersCache } from "#lib/cache.svelte.ts";
+  import { menuCache, ordersCache } from "#lib/cache.svelte";
   import type { LayoutProps } from "./$types";
 
   let { children }: LayoutProps = $props();
@@ -151,7 +151,14 @@
   <Tabbar
     labels
     icons
-    class="fixed bottom-0 left-0 z-20 overflow-visible! md:hidden"
+    class="fixed bottom-0 left-0 z-20 overflow-visible! md:hidden {path.startsWith(
+      '/cart',
+    )
+      ? 'hide-thumb'
+      : ''}"
+    colors={{
+      bgIos: "bg-transparent", // Or 'bg-transparent'
+    }}
   >
     <ToolbarPane class="overflow-visible!">
       <TabbarLink href="/menu" active={path.startsWith("/menu")} label="Menu">
@@ -167,12 +174,11 @@
       <!-- cart: a tab, styled as a raised FAB -->
       <TabbarLink
         href="/cart"
-        active={path.startsWith("/cart")}
-        linkProps={{ "aria-label": "Cart" }}
+        active={path.startsWith("/cart")} linkProps={{ "aria-label": "Cart" }}
         class="overflow-visible!"
         colors={{
           iconBgIos: "",
-          iconBgActiveIos: "",
+          iconBgActiveIos: "bg-transparent",
           iconBgMaterial: "",
           iconBgActiveMaterial: "",
         }}
@@ -216,3 +222,9 @@
     </ToolbarPane>
   </Tabbar>
 </App>
+
+<style>
+  :global(.hide-thumb .k-glass > span.absolute) {
+    display: none;
+  }
+</style>

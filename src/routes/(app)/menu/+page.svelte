@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { addToCart, type CartItem } from "#lib/cart.ts";
+  import { addToCart, type CartItem } from "#lib/cart";
   import { Heart } from "@boxicons/svelte";
   import { goto } from "$app/navigation";
   import {
@@ -187,15 +187,15 @@
         </div>
       </div>
 
-      {#if menu.category === "cake"}
+      {#if item.category === "cakes"}
         <div
           class="mt-2 flex flex-wrap gap-1"
           onclick={(e) => e.stopPropagation()}
         >
           {#each flavours as f}
             <Chip
-              outline={cardFlavours[menu._id] !== f}
-              onClick={() => (cardFlavours[menu._id] = f)}
+              outline={cardFlavours[item._id] !== f}
+              onClick={() => (cardFlavours[item._id] = f)}
             >
               {f}
             </Chip>
@@ -223,8 +223,10 @@
 </Toast>
 
 <style>
-  :global(.k-card) {
-    width: 45vw;
-    margin: auto;
+  @media (max-width: 768px) {
+    :global(.k-card) {
+      width: 45vw;
+      margin: auto;
+    }
   }
 </style>
