@@ -1,5 +1,5 @@
 <script>
-  import { ordersCache } from "#lib/cache.svelte.ts";
+  import { ordersCache } from "#lib/cache.svelte";
   let { data } = $props();
   const orders = $derived(ordersCache.value ?? data.orders);
 

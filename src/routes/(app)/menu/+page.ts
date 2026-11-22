@@ -1,11 +1,8 @@
 import { menuCache } from "#lib/cache.svelte.ts";
+import { filterMenu } from "#lib/menu";
+import type { PageLoad } from './$types'
 
-// tolerate "cake" vs "cakes"
-const norm = (s?: string | null) => s?.toLowerCase().replace(/s$/, "") ?? "";
-
-export const load = async ({ url }) => {
+export const load = (async ({ url }) => {
   const category = url.searchParams.get("category");
-  const all = await menuCache.load();
-  const menu = category ? all.filter((m: any) => norm(m.category) === norm(category)) : all;
-  return { menu, category };
-};
+  return { menu: filterMenu(await menuCache.load(), category), category };
+}) satisfies PageLoad;
