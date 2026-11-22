@@ -1,4 +1,4 @@
-import { auth } from "#lib/server/auth.ts";
+import { auth } from "#lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "../login/$types";
 import { dev } from "$app/env";

@@ -1,4 +1,4 @@
-import { auth } from "#lib/server/auth.ts";
+import { auth } from "#lib/server/auth";
 import { error } from "@sveltejs/kit";
 
 /**

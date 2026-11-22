@@ -2,8 +2,8 @@ import * as v from "valibot";
 import { query, form, getRequestEvent } from "$app/server";
 import { error } from "@sveltejs/kit";
 import { isValidObjectId } from "mongoose";
-import { Order } from "#lib/server/models/order.ts";
-import { requirePermission } from "#lib/server/permissions.ts";
+import { Order } from "#lib/server/models/order";
+import { requirePermission } from "#lib/server/permissions";
 import type { ReceiptOrder } from "#lib/utils/receipt";
 
 const Id = v.pipe(v.string(), v.check(isValidObjectId, "Invalid order id"));

@@ -1,4 +1,4 @@
-import { auth } from "#lib/server/auth.ts";
+import { auth } from "#lib/server/auth";
 import { fail, type Actions } from "@sveltejs/kit";
 import { createOrder } from "#lib/server/orders.js";
 import { WHATSAPP_NUMBER } from "$app/env/private";

@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
-import { deleteProduct, getProducts } from "#lib/server/products.ts";
-import { requirePermission } from "#lib/server/permissions.ts";
+import { deleteProduct, getProducts } from "#lib/server/products";
+import { requirePermission } from "#lib/server/permissions";
 
 export const load: PageServerLoad = async () => {
   const menu = await getProducts();

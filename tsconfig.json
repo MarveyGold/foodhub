@@ -1,6 +1,9 @@
 {
   "extends": "$app/tsconfig",
-  "compilerOptions": {
+  "compilerOptions": { 
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,  
+    "verbatimModuleSyntax": true,
     "rewriteRelativeImportExtensions": true,
     "sourceMap": true,
     "strict": true

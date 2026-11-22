@@ -1,6 +1,6 @@
 import { fail, error } from "@sveltejs/kit";
 import { getAllOrders, updateOrderStatus } from "#lib/server/orders.js";
-import { requirePermission } from "#lib/server/permissions.ts";
+import { requirePermission } from "#lib/server/permissions";
 
 const STATUSES = [
   "pending",

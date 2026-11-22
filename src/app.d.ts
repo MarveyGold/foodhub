@@ -1,4 +1,4 @@
-import type { auth } from "#lib/server/auth.ts";
+import type { auth } from "#lib/server/auth";
 
 declare global {
   namespace App {

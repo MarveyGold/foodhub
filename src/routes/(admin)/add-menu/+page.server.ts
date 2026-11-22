@@ -4,7 +4,7 @@ import {
   CLOUDINARY_UPLOAD_PRESET,
 } from "$app/env/private";
 import { addProduct } from "#lib/server/products.js";
-import { requirePermission } from "#lib/server/permissions.ts";
+import { requirePermission } from "#lib/server/permissions";
 
 interface CloudinaryUploadResponse {
   secure_url?: string;

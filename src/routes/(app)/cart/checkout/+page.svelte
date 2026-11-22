@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { cartStore, clearCart } from "#lib/cart.ts";
+  import { cartStore, clearCart } from "#lib/cart";
   import type { PageProps } from "./$types";
 
   let { form, data }: PageProps = $props();
